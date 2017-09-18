@@ -72,11 +72,12 @@ a, a:visited, a:active, .language-btn {
 }
 
 .mycont {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 10px;
     margin-top: 80px;
-    padding: 10px 10px 20px 10px;
-    width: 80%;
+    margin-left: 2.5%;
+    padding: 20px 10px 20px 10px;
+    width: 95%;
 
 }
 
