@@ -8,6 +8,49 @@ public class User {
     private float count;
     private UserAuth userAuth;
 
+    public static class Builder{
+        private String name;
+        private String surname;
+        private String phone;
+        private float count;
+        private UserAuth userAuth;
+
+        public Builder addName(String name){
+            this.name = name;
+            return this;
+        }
+
+        public Builder addSurname(String surname){
+            this.surname = surname;
+            return this;
+        }
+
+        public Builder addPhone(String phone){
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder addCount(float count){
+            this.count = count;
+            return this;
+        }
+
+        public Builder addUserAuth(UserAuth userAuth){
+            this.userAuth = userAuth;
+            return this;
+        }
+
+        public User createUser(){
+            User user = new User();
+            user.setName(name);
+            user.setSurname(surname);
+            user.setPhone(phone);
+            user.setCount(count);
+            user.setUserAuth(userAuth);
+            return user;
+        }
+    }
+
     public String getName() {
         return name;
     }

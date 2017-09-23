@@ -17,6 +17,42 @@ public class UserAuth {
         }
     }
 
+    public static class Builder {
+        private int id;
+        private String email;
+        private String password;
+        private Role role;
+
+        public Builder addId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder addEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder addPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder addRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public UserAuth createUserAuth() {
+            UserAuth userAuth = new UserAuth();
+            userAuth.setId(id);
+            userAuth.setEmail(email);
+            userAuth.setPassword(password);
+            userAuth.setRole(role);
+            return userAuth;
+        }
+    }
+
     public int getId() {
         return id;
     }
