@@ -36,6 +36,14 @@ public class OrderDaoImpl implements OrderDao{
     private final static String INSERT_QUERY = "INSERT INTO car_rent.order(car, date_from, date_to, order_status, " +
             "comment, order_user_id) VALUES (?, ?, ?, ?, ?, ?);";
 
+    private static class Holder {
+        static final OrderDaoImpl INSTANCE = new OrderDaoImpl();
+    }
+
+    public static OrderDaoImpl getInstance() {
+        return Holder.INSTANCE;
+    }
+
     @Override
     public List<Order> selectCertainTimeOrders(Date dateFrom, Date dateTo) {
         List<Order> orders = new ArrayList<>();
