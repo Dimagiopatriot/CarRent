@@ -1,12 +1,12 @@
 package model.dao.impl;
 
 import model.dao.OrderDao;
+import model.dao.util.SQLConnector;
 import model.entity.Order;
 import util.exception.DaoException;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,27 +17,109 @@ public class OrderDaoImpl implements OrderDao{
     private final static String COLUMN_DATE_FROM = "date_from";
     private final static String COLUMN_DATE_TO = "date_to";
     private final static String COLUMN_STATUS = "order_status";
-    private final static String COLUMN_COMMMENT = "comment";
+    private final static String COLUMN_COMMENT = "comment";
     private final static String COLUMN_USER_ID = "order_user_id";
+
+    private final static int COLUMN_CAR_INDEX = 1;
+    private final static int COLUMN_DATE_FROM_INDEX = 2;
+    private final static int COLUMN_DATE_TO_INDEX = 3;
+    private final static int COLUMN_STATUS_INDEX = 4;
+    private final static int COLUMN_COMMENT_INDEX = 5;
+    private final static int COLUMN_USER_ID_INDEX = 6;
+    private final static int COLUMN_ID_INDEX = 7;
+
+
+    private final static String SELECT_QUERY_BY_DATE = "SELECT * FROM car_rent.order WHERE date_from=? AND date_to=?;";
+    private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
+    private final static String UPDATE_QUERY  = "UPDATE car_rent.order SET car=?, date_from=?, date_to=?, " +
+            "order_status=?, comment=?, order_user_id=? WHERE id=?;";
+    private final static String INSERT_QUERY = "INSERT INTO car_rent.order(car, date_from, date_to, order_status, " +
+            "comment, order_user_id) VALUES (?, ?, ?, ?, ?, ?);";
 
     @Override
     public List<Order> selectCertainTimeOrders(Date dateFrom, Date dateTo) {
-        return null;
+        List<Order> orders = new ArrayList<>();
+        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_DATE)) {
+            statement.setDate(1, dateFrom);
+            statement.setDate(2, dateTo);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()){
+                    orders.add(buildOrder(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+        return orders;
     }
 
     @Override
-    public boolean update(OrderDao orderDao) throws DaoException {
-        return false;
+    public boolean update(Order order) throws DaoException {
+        int updatedRow = 0;
+        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+
+            statement.setString(COLUMN_CAR_INDEX, order.getCar().toString());
+            statement.setDate(COLUMN_DATE_FROM_INDEX, order.getDateStartRent());
+            statement.setDate(COLUMN_DATE_TO_INDEX, order.getDateEndRent());
+            statement.setString(COLUMN_STATUS_INDEX, order.getStatus().toString());
+            statement.setString(COLUMN_COMMENT_INDEX, order.getComment());
+            statement.setInt(COLUMN_USER_ID_INDEX, order.getUserId());
+            statement.setInt(COLUMN_ID_INDEX, order.getId());
+            updatedRow = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+        return updatedRow > 0;
     }
 
     @Override
-    public boolean insert(OrderDao orderDao) throws DaoException {
-        return false;
+    public boolean insert(Order order) throws DaoException {
+        int updatedRow = 0;
+        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+
+            statement.setString(COLUMN_CAR_INDEX, order.getCar().toString());
+            statement.setDate(COLUMN_DATE_FROM_INDEX, order.getDateStartRent());
+            statement.setDate(COLUMN_DATE_TO_INDEX, order.getDateEndRent());
+            statement.setString(COLUMN_STATUS_INDEX, order.getStatus().toString());
+            statement.setString(COLUMN_COMMENT_INDEX, order.getComment());
+            statement.setInt(COLUMN_USER_ID_INDEX, order.getUserId());
+            updatedRow = statement.executeUpdate();
+
+            try(ResultSet generatedKeys = statement.getGeneratedKeys()){
+                if (generatedKeys.next()){
+                    order.setId(generatedKeys.getInt(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+        return updatedRow > 0;
     }
 
     @Override
-    public Optional<OrderDao> select(int id) throws DaoException {
-        return null;
+    public Optional<Order> select(int id) throws DaoException {
+        Optional<Order> order = Optional.empty();
+        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
+            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_ID)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            resultSet.next();
+            order = Optional.of(buildOrder(resultSet));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+
+        return order;
     }
 
     private Order buildOrder(ResultSet resultSet) throws SQLException {
@@ -47,7 +129,7 @@ public class OrderDaoImpl implements OrderDao{
                 .addDateStartRent(resultSet.getDate(COLUMN_DATE_FROM))
                 .addDateEndRent(resultSet.getDate(COLUMN_DATE_TO))
                 .addStatus(Order.Status.valueOf(resultSet.getString(COLUMN_STATUS).toUpperCase()))
-                .addComment(resultSet.getString(COLUMN_COMMMENT))
+                .addComment(resultSet.getString(COLUMN_COMMENT))
                 .addUserId(resultSet.getInt(COLUMN_USER_ID))
                 .createOrder();
     }
