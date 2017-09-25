@@ -1,14 +1,20 @@
 package model.dao.impl;
 
 import model.dao.UserAuthDao;
-import model.dao.util.SQLConnector;
+import model.dao.util.ConnectionManager;
+import model.dao.util.JdbcConnection;
 import model.entity.UserAuth;
 import util.exception.DaoException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class UserAuthDaoImpl implements UserAuthDao {
+
+    private ConnectionManager connectionManager;
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_EMAIL = "email";
@@ -24,8 +30,12 @@ public class UserAuthDaoImpl implements UserAuthDao {
             "values(?, ?, ?);";
     private static final String DELETE_QUERY = "DELETE FROM car_rent.user_auth WHERE id = ?;";
 
+    public UserAuthDaoImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     private static class Holder {
-        static final UserAuthDaoImpl INSTANCE = new UserAuthDaoImpl();
+        static final UserAuthDaoImpl INSTANCE = new UserAuthDaoImpl(ConnectionManager.getInstance());
     }
 
     public static UserAuthDaoImpl getInstance() {
@@ -35,8 +45,9 @@ public class UserAuthDaoImpl implements UserAuthDao {
     @Override
     public Optional<UserAuth> selectByEmailPassword(String email, String password) {
         Optional<UserAuth> userAuth = Optional.empty();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_EMAIL_AND_PASSWORD)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_BY_EMAIL_AND_PASSWORD)) {
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
@@ -52,14 +63,15 @@ public class UserAuthDaoImpl implements UserAuthDao {
 
     @Override
     public boolean deleteById(int id) {
-        return delete(id, DELETE_QUERY);
+        return delete(id, DELETE_QUERY, connectionManager);
     }
 
     @Override
     public boolean update(UserAuth userAuth) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_QUERY)){
 
             statement.setString(1, userAuth.getEmail());
             statement.setString(2, userAuth.getPassword());
@@ -76,8 +88,9 @@ public class UserAuthDaoImpl implements UserAuthDao {
     @Override
     public boolean insert(UserAuth userAuth) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
 
             statement.setString(1, userAuth.getEmail());
             statement.setString(2, userAuth.getPassword());
@@ -98,8 +111,9 @@ public class UserAuthDaoImpl implements UserAuthDao {
     @Override
     public Optional<UserAuth> select(int id) throws DaoException {
         Optional<UserAuth> userAuth = Optional.empty();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();

@@ -1,14 +1,21 @@
 package model.dao.impl;
 
 import model.dao.UserDao;
-import model.dao.util.SQLConnector;
+import model.dao.util.ConnectionManager;
+import model.dao.util.JdbcConnection;
 import model.entity.User;
+import model.service.UserService;
 import util.exception.DaoException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
+
+    private ConnectionManager connectionManager;
 
     private final static String COLUMN_ID = "id";
     private final static String COLUMN_USER_NAME = "user_name";
@@ -24,8 +31,12 @@ public class UserDaoImpl implements UserDao {
     private final static String UPDATE_USER_PHONE_QUERY = "UPDATE car_rent.user SET phone=? WHERE id=?";
     private final static String UPDATE_USER_COUNT_QUERY = "UPDATE car_rent.user SET count=? WHERE id=?";
 
+    UserDaoImpl(ConnectionManager connectionManager){
+        this.connectionManager = connectionManager;
+    }
+
     private static class Holder {
-        static final UserDaoImpl INSTANCE = new UserDaoImpl();
+        static final UserDaoImpl INSTANCE = new UserDaoImpl(ConnectionManager.getInstance());
     }
 
     public static UserDaoImpl getInstance() {
@@ -35,8 +46,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean updateUserPhone(User user) {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_PHONE_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_USER_PHONE_QUERY)){
 
             statement.setString(1, user.getPhone());
             statement.setInt(2, user.getUserAuth().getId());
@@ -51,8 +63,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean updateUserCount(User user) {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_USER_COUNT_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_USER_COUNT_QUERY)){
 
             statement.setFloat(1, user.getCount());
             statement.setInt(2, user.getUserAuth().getId());
@@ -67,8 +80,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean update(User user) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_QUERY)){
 
             statement.setString(1, user.getName());
             statement.setString(2, user.getSurname());
@@ -86,8 +100,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean insert(User user) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
             statement.setInt(1, user.getUserAuth().getId());
             statement.setString(2, user.getName());
             statement.setString(3, user.getSurname());
@@ -105,8 +120,9 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> select(int id) throws DaoException {
         Optional<User> user = Optional.empty();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_ID)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
@@ -126,5 +142,10 @@ public class UserDaoImpl implements UserDao {
                 .addPhone(resultSet.getString(COLUMN_PHONE))
                 .addCount(resultSet.getFloat(COLUMN_COUNT))
                 .createUser();
+    }
+
+    public static void main(String[] args) {
+        Optional<User> user = UserService.getInstance().select(1);
+        System.out.print(user.get().toString());
     }
 }

@@ -1,17 +1,23 @@
 package model.dao.impl;
 
 import model.dao.DamageDao;
-import model.dao.util.SQLConnector;
+import model.dao.util.ConnectionManager;
+import model.dao.util.JdbcConnection;
 import model.entity.Damage;
 import model.entity.Order;
 import util.exception.DaoException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class DamageDaoImpl implements DamageDao {
+
+    private ConnectionManager connectionManager;
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_ORDER_ID = "order_id";
@@ -25,8 +31,12 @@ public class DamageDaoImpl implements DamageDao {
             "WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM car_rent.damage WHERE id = ?;";
 
+    public DamageDaoImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     private static class Holder {
-        static final DamageDaoImpl INSTANCE = new DamageDaoImpl();
+        static final DamageDaoImpl INSTANCE = new DamageDaoImpl(ConnectionManager.getInstance());
     }
 
     public static DamageDaoImpl getInstance() {
@@ -36,8 +46,9 @@ public class DamageDaoImpl implements DamageDao {
     @Override
     public List<Damage> selectOrderDamages(Order order) {
         List<Damage> damages = new ArrayList<>();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_ORDER_ID)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_ORDER_ID)) {
             statement.setInt(1, order.getId());
             ResultSet resultSet = statement.executeQuery();
 
@@ -59,8 +70,9 @@ public class DamageDaoImpl implements DamageDao {
     public boolean update(Damage damage) throws DaoException {
 
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_QUERY)){
 
             statement.setInt(1, damage.getOrder().getId());
             statement.setString(2, damage.getDamageDescription());
@@ -77,8 +89,9 @@ public class DamageDaoImpl implements DamageDao {
     @Override
     public boolean insert(Damage damage) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
 
             statement.setInt(1, damage.getOrder().getId());
             statement.setString(2, damage.getDamageDescription());
@@ -100,8 +113,9 @@ public class DamageDaoImpl implements DamageDao {
     @Override
     public Optional<Damage> select(int id) throws DaoException {
         Optional<Damage> damage = Optional.empty();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_ID)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 

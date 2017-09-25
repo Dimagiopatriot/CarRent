@@ -1,7 +1,8 @@
 package model.dao.impl;
 
 import model.dao.OrderDao;
-import model.dao.util.SQLConnector;
+import model.dao.util.ConnectionManager;
+import model.dao.util.JdbcConnection;
 import model.entity.Order;
 import util.exception.DaoException;
 
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderDaoImpl implements OrderDao{
+
+    private ConnectionManager connectionManager;
 
     private final static String COLUMN_ID = "id";
     private final static String COLUMN_CAR = "car";
@@ -36,8 +39,12 @@ public class OrderDaoImpl implements OrderDao{
     private final static String INSERT_QUERY = "INSERT INTO car_rent.order(car, date_from, date_to, order_status, " +
             "comment, order_user_id) VALUES (?, ?, ?, ?, ?, ?);";
 
+    public OrderDaoImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     private static class Holder {
-        static final OrderDaoImpl INSTANCE = new OrderDaoImpl();
+        static final OrderDaoImpl INSTANCE = new OrderDaoImpl(ConnectionManager.getInstance());
     }
 
     public static OrderDaoImpl getInstance() {
@@ -47,8 +54,9 @@ public class OrderDaoImpl implements OrderDao{
     @Override
     public List<Order> selectCertainTimeOrders(Date dateFrom, Date dateTo) {
         List<Order> orders = new ArrayList<>();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_DATE)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_DATE)) {
             statement.setDate(1, dateFrom);
             statement.setDate(2, dateTo);
             ResultSet resultSet = statement.executeQuery();
@@ -68,8 +76,9 @@ public class OrderDaoImpl implements OrderDao{
     @Override
     public boolean update(Order order) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_QUERY)){
 
             statement.setString(COLUMN_CAR_INDEX, order.getCar().toString());
             statement.setDate(COLUMN_DATE_FROM_INDEX, order.getDateStartRent());
@@ -89,8 +98,9 @@ public class OrderDaoImpl implements OrderDao{
     @Override
     public boolean insert(Order order) throws DaoException {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)){
 
             statement.setString(COLUMN_CAR_INDEX, order.getCar().toString());
             statement.setDate(COLUMN_DATE_FROM_INDEX, order.getDateStartRent());
@@ -115,8 +125,9 @@ public class OrderDaoImpl implements OrderDao{
     @Override
     public Optional<Order> select(int id) throws DaoException {
         Optional<Order> order = Optional.empty();
-        try(Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-            PreparedStatement statement = connection.prepareStatement(SELECT_QUERY_BY_ID)) {
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
