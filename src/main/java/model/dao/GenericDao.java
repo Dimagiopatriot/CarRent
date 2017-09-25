@@ -1,20 +1,20 @@
 package model.dao;
 
-import model.dao.util.SQLConnector;
+import model.dao.util.ConnectionManager;
+import model.dao.util.JdbcConnection;
 import util.exception.DaoException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Optional;
 
 public interface GenericDao<T> {
 
-    default boolean delete(int id, String deleteQuery) {
+    default boolean delete(int id, String deleteQuery, ConnectionManager connectionManager) {
         int updatedRow = 0;
-        try (Connection connection = DriverManager.getConnection(SQLConnector.URL, SQLConnector.USER, SQLConnector.PASSWORD);
-             PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(deleteQuery)) {
 
             statement.setInt(1, id);
             updatedRow = statement.executeUpdate();
