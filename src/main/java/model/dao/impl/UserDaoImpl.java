@@ -143,9 +143,4 @@ public class UserDaoImpl implements UserDao {
                 .addCount(resultSet.getFloat(COLUMN_COUNT))
                 .createUser();
     }
-
-    public static void main(String[] args) {
-        Optional<User> user = UserService.getInstance().select(1);
-        System.out.print(user.get().toString());
-    }
 }

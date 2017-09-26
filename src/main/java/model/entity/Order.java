@@ -12,6 +12,7 @@ public class Order {
     private int userId;
 
     public enum Status {
+        GET_FOR_CONFIRMATION,
         ACCEPTED,
         DENIED,
         CLOSED;
