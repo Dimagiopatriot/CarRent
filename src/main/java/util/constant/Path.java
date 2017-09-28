@@ -7,7 +7,12 @@ public interface Path {
 
     String USER = "/user";
     String CLIENT_ORDERS = "/user/clientOrders";
-    String UPDATE_PERSONAL_INFO = "/user/updatePersonalInfo";
+    String UPDATE_PERSONAL_INFO = "/user/clientUpdate";
+    String MAKE_ORDER = "/user/makeOrder";
+    String ADD_DAMAGE = "/user/addDamage";
+    String CHANGE_STATUS = "/user/changeStatus";
+    String ADMIN_ORDERS = "/user/adminOrders";
+    String ADMIN_ORDERS_SORT = "/user/adminOrders/sort";
 
     String REGISTRATION = "/registration";
     String SIGN_UP = "/registration/signup";
