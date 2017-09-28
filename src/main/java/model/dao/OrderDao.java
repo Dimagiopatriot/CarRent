@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface OrderDao extends GenericDao<Order> {
 
-    List<Order> selectCertainTimeOrders(Date dateFrom, Date dateTo);
+    List<Order> selectOrdersByStatus(Order.Status status);
 }

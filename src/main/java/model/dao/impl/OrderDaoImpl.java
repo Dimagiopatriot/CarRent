@@ -32,7 +32,7 @@ public class OrderDaoImpl implements OrderDao{
     private final static int COLUMN_ID_INDEX = 7;
 
 
-    private final static String SELECT_QUERY_BY_DATE = "SELECT * FROM car_rent.order WHERE date_from=? AND date_to=?;";
+    private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order WHERE order_status=?";
     private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
     private final static String UPDATE_QUERY  = "UPDATE car_rent.order SET car=?, date_from=?, date_to=?, " +
             "order_status=?, comment=?, order_user_id=? WHERE id=?;";
@@ -52,13 +52,12 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     @Override
-    public List<Order> selectCertainTimeOrders(Date dateFrom, Date dateTo) {
+    public List<Order> selectOrdersByStatus(Order.Status status) {
         List<Order> orders = new ArrayList<>();
         try(JdbcConnection connection = connectionManager.getConnection();
             PreparedStatement statement =
-                    connection.prepareStatement(SELECT_QUERY_BY_DATE)) {
-            statement.setDate(1, dateFrom);
-            statement.setDate(2, dateTo);
+                    connection.prepareStatement(SELECT_QUERY_BY_STATUS)) {
+            statement.setString(1, status.toString());
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.isBeforeFirst()){

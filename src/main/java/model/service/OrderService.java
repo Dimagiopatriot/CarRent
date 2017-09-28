@@ -23,8 +23,8 @@ public class OrderService {
         return Holder.INSTANCE;
     }
 
-    public List<Order> selectCertainTimeOrders(Date from, Date to){
-        return daoFactory.getOrderDao().selectCertainTimeOrders(from, to);
+    public List<Order> selectCertainTimeOrders(Order.Status status){
+        return daoFactory.getOrderDao().selectOrdersByStatus(status);
     }
 
     public boolean update(Order order){
