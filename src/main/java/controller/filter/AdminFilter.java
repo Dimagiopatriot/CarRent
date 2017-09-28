@@ -25,9 +25,9 @@ public class AdminFilter extends CommonVisitorFilter {
         notAllowedForAdmin = new ArrayList<>();
         notAllowedForAdmin.add(Path.LOGIN);
         notAllowedForAdmin.add(Path.REGISTRATION);
-        notAllowedForAdmin.add(Path.USER);
         notAllowedForAdmin.add(Path.CLIENT_ORDERS);
         notAllowedForAdmin.add(Path.UPDATE_PERSONAL_INFO);
+        notAllowedForAdmin.add(Path.MAKE_ORDER);
     }
 
     @Override
