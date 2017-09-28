@@ -14,38 +14,56 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<fieldset class="mycont">
 
-    <c:forEach items="${orders}" var="item">
-        <h3><fmt:message key="order.car"/>
-            <small><font color="black">${item.car.toString()}</font></small>
-        </h3>
+<form class="form-horizontal">
+    <fieldset class="mycont">
 
-        <h3><fmt:message key="order.period"/>
-            <small><font color="black">${item.dateStartRent.toString()} - ${item.dateEndRent.toString()}</font></small>
-        </h3>
-
-        <h3><fmt:message key="order.status"/>
-            <small><font color="black">${item.status.toString()}</font></small>
-        </h3>
-
-        <h3><fmt:message key="order.comment"/>
-            <small><font color="black">${item.comment}</font></small>
-        </h3>
-
-        <h3><u><fmt:message key="order.damage"/></u></h3>
-        <c:forEach items="${item.getDamages}" var="damageItem">
-
-            <h4><fmt:message key="damage.description"/>
-                <small><font color="black">${damageItem.damageDescription}</font></small>
-            </h4>
-            <h4><fmt:message key="damage.repairBill"/>
-                <small><font color="black">-- ${damageItem.repairBill}</font></small>
-            </h4>
-            </br>
+        <c:forEach items="${orders}" var="item">
+            <div class="form-group">
+                <h3 class="col-md-4 control-label"><fmt:message key="order.car"/>
+                    <small><font color="black">${item.car.toString()}</font></small>
+                </h3>
+            </div>
+            <div class="form-group">
+                <h3 class="col-md-4 control-label"><fmt:message key="order.period"/>
+                    <small><font color="black">${item.dateStartRent.toString()} - ${item.dateEndRent.toString()}</font>
+                    </small>
+                </h3>
+            </div>
+            <div class="form-group">
+                <h3 class="col-md-4 control-label"><fmt:message key="order.status"/>
+                    <small><font color="black">${item.status.toString()}</font></small>
+                </h3>
+            </div>
+            <div class="form-group">
+                <h3 class="col-md-4 control-label"><fmt:message key="order.comment"/>
+                    <small><font color="black">${item.comment}</font></small>
+                </h3>
+            </div>
+            <div class="form-group">
+                <h3 class="col-md-4 control-label"><u><fmt:message key="order.damage"/></u></h3>
+            </div>
+            <c:forEach items="${item.getDamages}" var="damageItem">
+                <div class="form-group">
+                    <h4 class="col-md-4 control-label"><fmt:message key="damage.description"/>
+                        <small><font color="black">${damageItem.damageDescription}</font></small>
+                    </h4>
+                </div>
+                <div class="form-group">
+                    <h4 class="col-md-4 control-label"><fmt:message key="damage.repairBill"/>
+                        <small><font color="black">-- ${damageItem.repairBill}</font></small>
+                    </h4>
+                </div>
+            </c:forEach>
         </c:forEach>
-    </c:forEach>
-</fieldset>
+        <div align="bottom|left">
+            <a href="/user"><fmt:message key="transition.to.user"/> </a>
+        </div>
+        <div align="bottom|left">
+            <a href="/user/makeOrder"><fmt:message key="transition.to.makeorder"/></a>
+        </div>
+    </fieldset>
+</form>
 
 <%@include file="footer.jsp" %>
 </body>

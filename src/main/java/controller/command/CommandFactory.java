@@ -1,5 +1,7 @@
 package controller.command;
 
+import util.constant.Path;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +12,8 @@ public class CommandFactory {
 
     CommandFactory(){
         commandMap = new HashMap<>();
+        commandMap.put(Path.USER, OpenUserPageCommand.getInstance());
+        commandMap.put(Path.MAKE_ORDER_PAGE, OpenMakeOrderPageCommand.getInstance());
     }
 
     private static class Holder{

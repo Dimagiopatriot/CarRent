@@ -29,18 +29,29 @@
         </div>
 
         <div class="form-group">
-            <label class="col-md-4 control-label" for="date"><fmt:message key="email"/></label>
+            <label class="col-md-4 control-label" for="date"><fmt:message key="order.period"/></label>
             <div class="col-md-4" id="date">
                 <input id="dateFrom" name="dateFrom" type="date" required="required">
                 <input id="dateTo" name="dateTo" type="date" required="required">
             </div>
         </div>
-        <h3><fmt:message key="order.price"/>
-            <small><font color="black">${order.car.getRentPricePerHour()}</font></small>
-        </h3>
+        <div class="form-group">
+            <h3 class="col-md-4 control-label"><fmt:message key="order.price"/>
+                <small><font color="black">${order.car.getRentPricePerHour()}</font></small>
+            </h3>
+        </div>
 
-        <div class="col-md-8">
-            <button id="orderButton" name="orderButton" class="btn btn-success"><fmt:message key="order.makeOrder"/></button>
+        <div>
+            <button id="orderButton" name="orderButton" class="btn btn-success"><fmt:message
+                    key="order.makeOrder"/></button>
+        </div>
+        </br>
+        <div align="bottom|left">
+            <a href="/user"><fmt:message key="transition.to.user"/></a>
+        </div>
+        </br>
+        <div align="bottom|left">
+            <a href="/user/clientOrders"><fmt:message key="transition.to.orders"/></a>
         </div>
     </fieldset>
 </form>

@@ -18,44 +18,54 @@
     <fieldset class="mycont">
 
         <div class="form-group">
-            <h3 class="col-md-4"><fmt:message key="user.name"/>
+            <h3 class="col-md-4 control-label"><fmt:message key="user.name"/>
                 <small><font color="black">${user.name}</font></small>
             </h3>
         </div>
 
         <div class="form-group">
-            <h3 class="col-md-4"><fmt:message key="user.surname"/>
+            <h3 class="col-md-4 control-label"><fmt:message key="user.surname"/>
                 <small><font color="black"> ${user.surname}</font></small>
             </h3>
         </div>
 
         <div class="form-group">
-            <h3 class="col-md-4"><fmt:message key="email"/>
+            <h3 class="col-md-4 control-label"><fmt:message key="email"/>
                 <small><font color="black"> ${user.email}</font></small>
             </h3>
         </div>
 
         <c:if test="${user != null && user.userAuth.role.toString() == 'client'}">
             <div class="form-group">
-                <h3 class="col-md-4"><fmt:message key="user.phone"/> <input id="userphone" name="userphone"
-                                                                            placeholder="0000000000"
-                                                                            class="form-control input-md"
-                                                                            required="required"
-                                                                            value="${user.phone}"></h3>
+                <label class="col-md-4 control-label" for="userphone"><fmt:message key="user.phone"/></label>
+                <div class="col-md-4">
+                    <input id="userphone" name="userphone" min="0" type="number" placeholder="0000000000"
+                           value="${user.phone}"
+                           required="required"
+                           class="form-control input-md">
+
+                </div>
+            </div>
             </div>
             <div class="form-group">
-                <h3 class="col-md-4"><fmt:message key="user.count"/> <input id="usercount" name="usercount"
-                                                                            placeholder="in UAH"
-                                                                            class="form-control input-md"
-                                                                            required="required"
-                                                                            value="${user.count}"></h3>
+                <label class="col-md-4 control-label" for="usercount"><fmt:message key="user.count"/></label>
+                <div class="col-md-4">
+                    <input id="usercount" name="usercount" min="0" value="${user.count}" type="number"
+                           required="required" placeholder="in UAH"
+                           class="form-control input-md">
+
+                </div>
             </div>
 
             <div>
                 <button class="btn btn-success"><fmt:message key="user.update"/></button>
             </div>
+            <a href="/user/clientOrders"><fmt:message key="transition.to.orders"/> </a>
+            <a href="/user/makeOrder"><fmt:message key="transition.to.makeorder"/> </a>
         </c:if>
-
+        <c:if test="${user != null && user.userAuth.role.toString() == 'admin'}">
+            <a href="/user/adminOrders"><fmt:message key="transition.to.orders"/> </a>
+        </c:if>
     </fieldset>
 </form>
 
