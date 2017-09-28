@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Order {
     private int id;
@@ -10,6 +11,7 @@ public class Order {
     private Status status;
     private String comment;
     private int userId;
+    private List<Damage> damages;
 
     public enum Status {
         GET_FOR_CONFIRMATION,
@@ -158,6 +160,14 @@ public class Order {
         this.userId = userId;
     }
 
+    public List<Damage> getDamages() {
+        return damages;
+    }
+
+    public void setDamages(List<Damage> damages) {
+        this.damages = damages;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -196,6 +206,7 @@ public class Order {
                 ", status=" + status +
                 ", comment='" + comment + '\'' +
                 ", userId=" + userId +
+                ", damages=" + damages +
                 '}';
     }
 }
