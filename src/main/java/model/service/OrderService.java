@@ -23,7 +23,7 @@ public class OrderService {
         return Holder.INSTANCE;
     }
 
-    public List<Order> selectCertainTimeOrders(Order.Status status){
+    public List<Order> selectOrderByStatus(Order.Status status){
         return daoFactory.getOrderDao().selectOrdersByStatus(status);
     }
 

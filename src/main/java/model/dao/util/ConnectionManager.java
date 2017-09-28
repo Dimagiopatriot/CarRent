@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConnectionManager {
 
     private DataSource dataSource;
-    private static ThreadLocal<JdbcConnection> connectionThreadLocal = new ThreadLocal<>();
+    private static JdbcConnection jdbcConnection;
 
     private ConnectionManager() {
         try {
@@ -27,37 +27,33 @@ public class ConnectionManager {
     }
 
     public synchronized JdbcConnection getConnection() {
-        JdbcConnection connection = connectionThreadLocal.get();
-        if(connection == null) {
-            try {
-                return new JdbcConnection(dataSource.getConnection());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            return connection;
+        try {
+            return new JdbcConnection(dataSource.getConnection());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void startTransaction(){
+    public void startTransaction() {
         JdbcConnection connection = getConnection();
         connection.startTransaction();
-        connectionThreadLocal.set(connection);
+        jdbcConnection = connection;
     }
-    public void commit(){
-        JdbcConnection connection = connectionThreadLocal.get();
+
+    public void commit() {
+        JdbcConnection connection = jdbcConnection;
         connection.commit();
         close(connection);
     }
 
-    public void rollback(){
-        JdbcConnection connection = connectionThreadLocal.get();
+    public void rollback() {
+        JdbcConnection connection = jdbcConnection;
         connection.rollback();
         close(connection);
     }
 
-    private void close(JdbcConnection connection){
-        connectionThreadLocal.remove();
+    private void close(JdbcConnection connection) {
+        jdbcConnection.close();
         connection.close();
     }
 }

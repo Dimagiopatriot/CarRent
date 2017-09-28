@@ -1,5 +1,7 @@
 package controller.command;
 
+import model.entity.Order;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,6 +17,10 @@ public class AddDamageToOrderCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        return null;
+    }
+
+    private Order createOrderFromRequest(HttpServletRequest request){
         return null;
     }
 }

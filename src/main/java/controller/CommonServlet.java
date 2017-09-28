@@ -3,6 +3,7 @@ package controller;
 import controller.command.Command;
 import controller.command.CommandFactory;
 import util.PathBuilder;
+import util.constant.Page;
 import util.exception.DaoException;
 
 import javax.servlet.RequestDispatcher;
@@ -38,6 +39,8 @@ public class CommonServlet extends HttpServlet {
         try {
             page = command.execute(request, response);
         } catch (Exception e){
+            page = Page.ERROR;
+            e.printStackTrace();
         }
 
         return page;

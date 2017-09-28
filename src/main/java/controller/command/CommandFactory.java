@@ -8,10 +8,12 @@ import java.util.Map;
 
 public class CommandFactory {
 
-    Map<String, Command> commandMap;
+    private Map<String, Command> commandMap;
 
     CommandFactory(){
         commandMap = new HashMap<>();
+        commandMap.put(Path.LOGIN, OpenLoginPageCommand.getInstance());
+        commandMap.put(Path.REGISTRATION, OpenRegistrationPageCommand.getInstance());
         commandMap.put(Path.USER, OpenUserPageCommand.getInstance());
         commandMap.put(Path.MAKE_ORDER_PAGE, OpenMakeOrderPageCommand.getInstance());
     }
