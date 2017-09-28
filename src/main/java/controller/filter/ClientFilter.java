@@ -26,7 +26,7 @@ public class ClientFilter extends CommonVisitorFilter {
         notAllowedForClient.add(Path.LOGIN);
         notAllowedForClient.add(Path.REGISTRATION);
         notAllowedForClient.add(Path.ADD_DAMAGE);
-        notAllowedForClient.add(Path.CHANGE_STATUS);
+        notAllowedForClient.add(Path.UPDATE_ORDER);
         notAllowedForClient.add(Path.ADMIN_ORDERS);
         notAllowedForClient.add(Path.ADMIN_ORDERS_SORT);
     }

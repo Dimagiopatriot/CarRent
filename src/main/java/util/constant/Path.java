@@ -8,9 +8,10 @@ public interface Path {
     String USER = "/user";
     String CLIENT_ORDERS = "/user/clientOrders";
     String UPDATE_PERSONAL_INFO = "/user/clientUpdate";
-    String MAKE_ORDER = "/user/makeOrder";
+    String MAKE_ORDER_PAGE = "/user/makeOrder";
+    String CREATE_ORDER = "/user/makeOrder/create";
     String ADD_DAMAGE = "/user/addDamage";
-    String CHANGE_STATUS = "/user/changeStatus";
+    String UPDATE_ORDER = "/user/updateOrder";
     String ADMIN_ORDERS = "/user/adminOrders";
     String ADMIN_ORDERS_SORT = "/user/adminOrders/sort";
 

@@ -1,6 +1,7 @@
 package controller.filter;
 
 import model.entity.User;
+import util.constant.Page;
 import util.constant.Path;
 
 import javax.servlet.FilterConfig;
@@ -25,12 +26,13 @@ public class GuestFilter extends CommonVisitorFilter {
         notAllowedForGuest.add(Path.LOGOUT);
         notAllowedForGuest.add(Path.USER);
         notAllowedForGuest.add(Path.ADD_DAMAGE);
-        notAllowedForGuest.add(Path.CHANGE_STATUS);
+        notAllowedForGuest.add(Path.UPDATE_ORDER);
         notAllowedForGuest.add(Path.ADMIN_ORDERS);
         notAllowedForGuest.add(Path.ADMIN_ORDERS_SORT);
         notAllowedForGuest.add(Path.CLIENT_ORDERS);
         notAllowedForGuest.add(Path.UPDATE_PERSONAL_INFO);
-        notAllowedForGuest.add(Path.MAKE_ORDER);
+        notAllowedForGuest.add(Path.MAKE_ORDER_PAGE);
+        notAllowedForGuest.add(Path.CREATE_ORDER);
     }
 
     @Override

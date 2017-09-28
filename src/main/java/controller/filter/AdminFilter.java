@@ -27,7 +27,8 @@ public class AdminFilter extends CommonVisitorFilter {
         notAllowedForAdmin.add(Path.REGISTRATION);
         notAllowedForAdmin.add(Path.CLIENT_ORDERS);
         notAllowedForAdmin.add(Path.UPDATE_PERSONAL_INFO);
-        notAllowedForAdmin.add(Path.MAKE_ORDER);
+        notAllowedForAdmin.add(Path.MAKE_ORDER_PAGE);
+        notAllowedForAdmin.add(Path.CREATE_ORDER);
     }
 
     @Override
