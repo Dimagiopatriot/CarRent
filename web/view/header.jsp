@@ -12,13 +12,38 @@
             <a href="/" class="lnk"><fmt:message key="main.page"/></a>
         </div>
 
-        <div class="col-md-2 menu">
-            <a href="/login"><fmt:message key="login.page"/></a>
-        </div>
+        <c:choose>
+            <c:when test="${user == null}">
 
-        <div class="col-md-2 menu">
-            <a href="/registration"><fmt:message key="registration.page"/></a>
-        </div>
+                <div class="col-md-2 menu">
+                    <a href="/login"><fmt:message key="login.page"/></a>
+                </div>
+
+                <div class="col-md-2 menu">
+                    <a href="/registration"><fmt:message key="registration.page"/></a>
+                </div>
+
+            </c:when>
+
+
+            <c:when test="${user != null}">
+                <div class="col-md-2 menu">
+                    <a href="/user"><fmt:message key="user.page"/></a>
+                </div>
+
+                <div class="col-md-2 menu">
+                    <p class="text">
+                        <fmt:message key="header.logged"/>
+                        <c:out value="${user.userAuth.email} ${user.count} UAH"/>
+                    </p>
+                </div>
+
+                <div class="col-md-2 menu">
+                    <a href="/logout"><fmt:message key="logout"/></a>
+                </div>
+            </c:when>
+
+        </c:choose>
 
         <form method="get">
             <div class="col-md-2 menu">
