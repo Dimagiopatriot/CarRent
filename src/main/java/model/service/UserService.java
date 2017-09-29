@@ -11,14 +11,17 @@ public class UserService {
 
     private DaoFactory daoFactory;
     private ConnectionManager connectionManager;
+    private UserAuthService userAuthService;
 
-    public UserService(DaoFactory daoFactory, ConnectionManager connectionManager) {
+    public UserService(DaoFactory daoFactory, ConnectionManager connectionManager, UserAuthService userAuthService) {
         this.daoFactory = daoFactory;
         this.connectionManager = connectionManager;
+        this.userAuthService = userAuthService;
     }
 
     private static class Holder{
-        static final UserService INSTANCE = new UserService(DaoFactory.getInstance(), ConnectionManager.getInstance());
+        static final UserService INSTANCE = new UserService(DaoFactory.getInstance(), ConnectionManager.getInstance(),
+                UserAuthService.getInstance());
     }
 
     public static UserService getInstance(){
@@ -66,7 +69,7 @@ public class UserService {
         boolean isCreated = false;
         try{
             connectionManager.startTransaction();
-            UserAuthService.getInstance().insert(user.getUserAuth());
+            userAuthService.insert(user.getUserAuth());
             isCreated = daoFactory.getUserDao().insert(user);
             connectionManager.commit();
         } catch (DaoException ex){

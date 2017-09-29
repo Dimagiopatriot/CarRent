@@ -39,7 +39,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="phone"><fmt:message key="user.phone"/></label>
             <div class="col-md-4">
-                <input id="phone" name="phone" type="tel" placeholder="0000000000"
+                <input id="phone" name="phone" type="tel" placeholder="+380_ _ _ _ _ _ _ _"
                        class="form-control input-md" required="required">
             </div>
         </div>
