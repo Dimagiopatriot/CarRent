@@ -11,7 +11,7 @@ public class Order {
     private Status status;
     private String comment;
     private int userId;
-    private List<Damage> damages;
+    private Damage damage;
 
     public enum Status {
         GET_FOR_CONFIRMATION,
@@ -160,12 +160,12 @@ public class Order {
         this.userId = userId;
     }
 
-    public List<Damage> getDamages() {
-        return damages;
+    public Damage getDamages() {
+        return damage;
     }
 
-    public void setDamages(List<Damage> damages) {
-        this.damages = damages;
+    public void setDamages(Damage damage) {
+        this.damage = damage;
     }
 
     @Override
@@ -206,7 +206,7 @@ public class Order {
                 ", status=" + status +
                 ", comment='" + comment + '\'' +
                 ", userId=" + userId +
-                ", damages=" + damages +
+                ", damages=" + damage +
                 '}';
     }
 }

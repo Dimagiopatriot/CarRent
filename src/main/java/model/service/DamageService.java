@@ -23,7 +23,7 @@ public class DamageService {
         return Holder.INSTANCE;
     }
 
-    public List<Damage> selectOrderDamages(Order order){
+    public Optional<Damage> selectOrderDamages(Order order){
         return daoFactory.getDamageDao().selectOrderDamages(order);
     }
 

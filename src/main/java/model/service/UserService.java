@@ -3,6 +3,7 @@ package model.service;
 import model.dao.util.ConnectionManager;
 import model.dao.util.DaoFactory;
 import model.entity.User;
+import model.entity.UserAuth;
 import util.exception.DaoException;
 
 import java.util.Optional;
@@ -80,5 +81,13 @@ public class UserService {
 
     public Optional<User> select(int id){
         return daoFactory.getUserDao().select(id);
+    }
+
+    public Optional<User> selectByEmailPassword(String email, String password){
+        Optional<UserAuth> userAuth = userAuthService.selectByEmailPassword(email, password);
+        if (!userAuth.isPresent()){
+            return Optional.empty();
+        }
+        return select(userAuth.get().getId());
     }
 }

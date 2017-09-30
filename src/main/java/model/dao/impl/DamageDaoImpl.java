@@ -44,26 +44,21 @@ public class DamageDaoImpl implements DamageDao {
     }
 
     @Override
-    public List<Damage> selectOrderDamages(Order order) {
-        List<Damage> damages = new ArrayList<>();
+    public Optional<Damage> selectOrderDamages(Order order) {
+        Optional<Damage> damage;
         try(JdbcConnection connection = connectionManager.getConnection();
             PreparedStatement statement =
                     connection.prepareStatement(SELECT_QUERY_BY_ORDER_ID)) {
             statement.setInt(1, order.getId());
             ResultSet resultSet = statement.executeQuery();
 
-            if (resultSet.isBeforeFirst()){
-                while (resultSet.next()){
-                    Damage damage = buildDamage(resultSet);
-                    damage.setOrder(order);
-                    damages.add(damage);
-                }
-            }
+            resultSet.next();
+            damage = Optional.of(buildDamage(resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DaoException();
         }
-        return damages;
+        return damage;
     }
 
     @Override

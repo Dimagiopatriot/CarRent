@@ -4,8 +4,9 @@ import model.entity.Damage;
 import model.entity.Order;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface DamageDao extends GenericDao<Damage> {
 
-   List<Damage> selectOrderDamages (Order order);
+   Optional<Damage> selectOrderDamages (Order order);
 }
