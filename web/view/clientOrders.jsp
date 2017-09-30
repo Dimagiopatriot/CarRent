@@ -43,18 +43,17 @@
             <div class="form-group">
                 <h3 class="col-md-4 control-label"><u><fmt:message key="order.damage"/></u></h3>
             </div>
-            <c:forEach items="${item.getDamages}" var="damageItem">
-                <div class="form-group">
-                    <h4 class="col-md-4 control-label"><fmt:message key="damage.description"/>
-                        <small><font color="black">${damageItem.damageDescription}</font></small>
-                    </h4>
-                </div>
-                <div class="form-group">
-                    <h4 class="col-md-4 control-label"><fmt:message key="damage.repairBill"/>
-                        <small><font color="black">-- ${damageItem.repairBill}</font></small>
-                    </h4>
-                </div>
-            </c:forEach>
+
+            <div class="form-group">
+                <h4 class="col-md-4 control-label"><fmt:message key="damage.description"/>
+                    <small><font color="black">${item.getDamage().damageDescription}</font></small>
+                </h4>
+            </div>
+            <div class="form-group">
+                <h4 class="col-md-4 control-label"><fmt:message key="damage.repairBill"/>
+                    <small><font color="black">-- ${item.getDamage().repairBill}</font></small>
+                </h4>
+            </div>
         </c:forEach>
         <div align="bottom|left">
             <a href="/user"><fmt:message key="transition.to.user"/> </a>

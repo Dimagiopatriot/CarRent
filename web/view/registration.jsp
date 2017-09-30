@@ -67,14 +67,17 @@
         <!-- Button -->
         <label class="col-md-4 control-label" for="registerbutton"></label>
         <div class="col-md-8">
-            <button id="registerbutton" name="registerbutton" class="btn btn-success" onclick="phonenumber(phone)">
+            <button id="registerbutton" name="registerbutton" class="btn btn-success">
                 <fmt:message key="sign.up"/></button>
         </div>
 
     </fieldset>
 </form>
 
-<script src="/resources/js/registration.js"></script>
+<c:forEach items="${errors}" var="item">
+    <p class="text-danger"><fmt:message key="${item}"/></p>
+    <br>
+</c:forEach>
 <%@include file="footer.jsp" %>
 </body>
 </html>

@@ -21,7 +21,7 @@
             <label class="col-md-4 control-label" for="email"><fmt:message key="email"/></label>
             <div class="col-md-4">
                 <input id="email" name="email" type="email" placeholder="example@email.com"
-                       class="form-control input-md" required="required">
+                       class="form-control input-md" required="required" value="${email}">
 
             </div>
         </div>
@@ -44,6 +44,11 @@
 
     </fieldset>
 </form>
+
+<c:forEach items="${errors}" var="item">
+    <p class="text-danger"><fmt:message key="${item}"/></p>
+    <br>
+</c:forEach>
 
 <%@include file="footer.jsp" %>
 </body>

@@ -1,5 +1,6 @@
 package util;
 
+import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,5 +34,9 @@ public class Validator {
     public boolean validateNameOrSurname(String nameOrSurname){
         Matcher matcher = VALID_NAME_SURNAME_REGEX.matcher(nameOrSurname);
         return matcher.find();
+    }
+
+    public boolean validateDate(LocalDate dateFrom, LocalDate dateTo) {
+        return dateFrom.isAfter(LocalDate.now()) && dateFrom.isBefore(dateTo);
     }
 }
