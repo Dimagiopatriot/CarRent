@@ -34,6 +34,7 @@ public class OrderDaoImpl implements OrderDao{
 
     private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order WHERE order_status=?";
     private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
+    private final static String SELECT_QUERY_BY_USER_ID = "SELECT * FROM car_rent.order WHERE order_user_id=?;";
     private final static String UPDATE_QUERY  = "UPDATE car_rent.order SET car=?, date_from=?, date_to=?, " +
             "order_status=?, comment=?, order_user_id=? WHERE id=?;";
     private final static String INSERT_QUERY = "INSERT INTO car_rent.order(car, date_from, date_to, order_status, " +
@@ -58,6 +59,27 @@ public class OrderDaoImpl implements OrderDao{
             PreparedStatement statement =
                     connection.prepareStatement(SELECT_QUERY_BY_STATUS)) {
             statement.setString(1, status.toString());
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()){
+                    orders.add(buildOrder(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DaoException();
+        }
+        return orders;
+    }
+
+    @Override
+    public List<Order> selectByUserId(int userId) {
+        List<Order> orders = new ArrayList<>();
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_BY_USER_ID)) {
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.isBeforeFirst()){
