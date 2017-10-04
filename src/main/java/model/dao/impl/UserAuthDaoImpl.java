@@ -94,7 +94,7 @@ public class UserAuthDaoImpl implements UserAuthDao {
 
             statement.setString(1, userAuth.getEmail());
             statement.setString(2, userAuth.getPassword());
-            statement.setString(2, userAuth.getRole().toString());
+            statement.setString(3, userAuth.getRole().toString());
             updatedRow = statement.executeUpdate();
 
             try(ResultSet generatedKeys = statement.getGeneratedKeys()){
