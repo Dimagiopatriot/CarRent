@@ -75,6 +75,7 @@ public class UserService {
             connectionManager.commit();
         } catch (DaoException ex){
             connectionManager.rollback();
+            return isCreated;
         }
         return isCreated;
     }
@@ -85,9 +86,12 @@ public class UserService {
 
     public Optional<User> selectByEmailPassword(String email, String password){
         Optional<UserAuth> userAuth = userAuthService.selectByEmailPassword(email, password);
+        Optional<User> user;
         if (!userAuth.isPresent()){
             return Optional.empty();
         }
-        return select(userAuth.get().getId());
+        user = select(userAuth.get().getId());
+        user.ifPresent(user1 -> user1.setUserAuth(userAuth.get()));
+        return user;
     }
 }
