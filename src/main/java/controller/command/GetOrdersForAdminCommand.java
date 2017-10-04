@@ -1,12 +1,24 @@
 package controller.command;
 
+import model.entity.Order;
+import model.service.OrderService;
+import util.constant.Page;
+import util.constant.Parameters;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public class GetOrdersForAdminCommand implements Command{
 
+    private OrderService orderService;
+
+    public GetOrdersForAdminCommand(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     private static class Holder{
-        static final GetOrdersForAdminCommand INSTANCE = new GetOrdersForAdminCommand();
+        static final GetOrdersForAdminCommand INSTANCE = new GetOrdersForAdminCommand(OrderService.getInstance());
     }
 
     public static GetOrdersForAdminCommand getInstance(){
@@ -15,6 +27,8 @@ public class GetOrdersForAdminCommand implements Command{
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return null;
+        List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
+        request.setAttribute(Parameters.ORDERS, orders);
+        return Page.ADMIN_ORDERS;
     }
 }

@@ -37,6 +37,6 @@ public class Validator {
     }
 
     public boolean validateDate(LocalDate dateFrom, LocalDate dateTo) {
-        return dateFrom.isAfter(LocalDate.now()) && dateFrom.isBefore(dateTo);
+        return (dateFrom.equals(LocalDate.now()) || dateFrom.isAfter(LocalDate.now())) && dateFrom.isBefore(dateTo);
     }
 }
