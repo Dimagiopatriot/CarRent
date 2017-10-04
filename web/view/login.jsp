@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post" action="/login/signin" autocomplete="on">
     <fieldset class="mycont">
         <!-- Text input-->
         <div class="form-group">
@@ -37,11 +37,12 @@
         </div>
 
         <!-- Button -->
+
         <label class="col-md-4 control-label" for="loginbutton"></label>
         <div class="col-md-8">
-            <button id="loginbutton" name="loginbutton" class="btn btn-success"><fmt:message key="sign.in"/></button>
+            <button id="loginbutton" name="loginbutton" class="btn btn-success"><fmt:message
+                    key="sign.in"/></button>
         </div>
-
     </fieldset>
 </form>
 

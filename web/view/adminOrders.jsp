@@ -14,9 +14,10 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<form class="form-horizontal">
+<div class="form-horizontal">
     <fieldset class="mycont">
         <c:forEach items="${orders}" var="order">
+            <hr>
             <div class="form-group">
                 <h3 class="col-md-4 control-label"><fmt:message key="order.car"/>
                     <small><font color="black">${order.car.toString()}</font></small>
@@ -30,13 +31,16 @@
                 </h3>
             </div>
             <div class="form-group">
-                <label class="col-md-4 control-label" for="carSelect"><fmt:message key="order.status"/></label>
+                <label class="col-md-4 control-label" for="statusSelect"><fmt:message key="order.status"/></label>
                 <div class="col-md-4">
-                    <select id="carSelect" name="carSelect" class="form-control" required="required">
-                        <option value="GET_FOR_CONFIRMATION">Get for confirmation</option>
-                        <option value="ACCEPTED">Accepted</option>
-                        <option value="DENIED">Denied</option>
-                        <option value="CLOSED">Closed</option>
+                    <select id="statusSelect" name="statusSelect" class="form-control" required="required">
+                        <option value="GET_FOR_CONFIRMATION" ${order.status.toString().equals("get_for_confirmation")?"selected":""}>
+                            Get for confirmation
+                        </option>
+                        <option value="ACCEPTED"${order.status.toString().equals("accepted")?"selected":""}>Accepted
+                        </option>
+                        <option value="DENIED"${order.status.toString().equals("denied")?"selected":""}>Denied</option>
+                        <option value="CLOSED"${order.status.toString().equals("closed")?"selected":""}>Closed</option>
                     </select>
                 </div>
             </div>
@@ -44,6 +48,7 @@
                 <label class="col-md-4 control-label" for="adminComment"><fmt:message key="order.comment"/></label>
                 <div class="col-md-4">
                     <input id="adminComment" name="adminComment" placeholder="<fmt:message key="order.comment"/>"
+                           value="${order.comment}"
                            class="form-control input-md">
 
                 </div>
@@ -55,6 +60,7 @@
                 <div class="col-md-4">
                     <input id="damageDescription" name="damageDescription"
                            placeholder="<fmt:message key="damage.description"/>"
+                           value="${order.damage.damageDescription}"
                            class="form-control input-md">
 
                 </div>
@@ -65,22 +71,33 @@
                 <div class="col-md-4">
                     <input id="damageRepairBill" name="damageRepairBill" type="number" min="0"
                            placeholder="<fmt:message key="damage.repairBill"/>"
+                           value="${order.damage.repairBill}"
                            class="form-control input-md">
 
                 </div>
             </div>
-            <div align="middle">
-                <button class="btn btn-success"><fmt:message key="damage.addDamage"/></button>
-            </div>
-            <div align="bottom|left">
-                <button class="btn btn-success"><fmt:message key="order.confirmChanges"/></button>
-            </div>
+            <p class="text-success"><fmt:message key="${success}"/></p>
+            <p class="text-danger"><fmt:message key="${errors}"/></p>
+            <form method="post" action="/user/addDamage">
+                <div align="middle">
+                    <button class="btn btn-success"><fmt:message key="damage.addDamage"/></button>
+                </div>
+            </form>
+            <p class="text-success"><fmt:message key="${updateErrorOrder}"/></p>
+            <p class="text-danger"><fmt:message key="${updateSuccessOrder}"/></p>
+            <form method="post" action="/user/updateOrder">
+                <div align="bottom|left">
+                    <button class="btn btn-success"><fmt:message key="order.confirmChanges"/></button>
+                </div>
+            </form>
+            <hr>
         </c:forEach>
+        </br>
         <div align="bottom|left">
             <a href="/user"><fmt:message key="transition.to.user"/> </a>
         </div>
     </fieldset>
-</form>
+</div>
 <%@include file="footer.jsp" %>
 </body>
 </html>

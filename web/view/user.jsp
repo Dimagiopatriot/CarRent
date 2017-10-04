@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<form class="form-horizontal">
+<div class="form-horizontal">
     <fieldset class="mycont">
 
         <div class="form-group">
@@ -31,7 +31,7 @@
 
         <div class="form-group">
             <h3 class="col-md-4 control-label"><fmt:message key="email"/>
-                <small><font color="black"> ${user.email}</font></small>
+                <small><font color="black"> ${user.userAuth.email}</font></small>
             </h3>
         </div>
 
@@ -45,7 +45,6 @@
                            class="form-control input-md">
 
                 </div>
-            </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="usercount"><fmt:message key="user.count"/></label>
@@ -67,7 +66,7 @@
             <a href="/user/adminOrders"><fmt:message key="transition.to.orders"/> </a>
         </c:if>
     </fieldset>
-</form>
+</div>
 
 <%@include file="footer.jsp" %>
 </body>

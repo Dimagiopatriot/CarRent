@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post" action="/registration/signup">
     <fieldset class="mycont">
 
         <!-- Text input-->

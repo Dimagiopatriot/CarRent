@@ -15,10 +15,11 @@
 <body>
 <%@include file="header.jsp" %>
 
-<form class="form-horizontal">
+<form class="form-horizontal" method="post" action="/user/clientOrders">
     <fieldset class="mycont">
 
         <c:forEach items="${orders}" var="item">
+            <hr>
             <div class="form-group">
                 <h3 class="col-md-4 control-label"><fmt:message key="order.car"/>
                     <small><font color="black">${item.car.toString()}</font></small>
@@ -45,15 +46,16 @@
             </div>
 
             <div class="form-group">
-                <h4 class="col-md-4 control-label"><fmt:message key="damage.description"/>
-                    <small><font color="black">${item.getDamage().damageDescription}</font></small>
+                <h4 class="col-md-4 control-label" id="damageDescription"><fmt:message key="damage.description"/>
+                    <small><font color="black">${item.damage.damageDescription}</font></small>
                 </h4>
             </div>
             <div class="form-group">
-                <h4 class="col-md-4 control-label"><fmt:message key="damage.repairBill"/>
-                    <small><font color="black">-- ${item.getDamage().repairBill}</font></small>
+                <h4 class="col-md-4 control-label" id="damageRepairBill"><fmt:message key="damage.repairBill"/>
+                    <small><font color="black">-- ${item.damage.repairBill}</font></small>
                 </h4>
             </div>
+            <hr>
         </c:forEach>
         <div align="bottom|left">
             <a href="/user"><fmt:message key="transition.to.user"/> </a>
@@ -63,6 +65,7 @@
         </div>
     </fieldset>
 </form>
+
 
 <%@include file="footer.jsp" %>
 </body>

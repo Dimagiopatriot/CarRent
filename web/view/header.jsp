@@ -32,9 +32,10 @@
                 </div>
 
                 <div class="col-md-2 menu">
-                    <p class="text">
+                    <p class="text"><font color="#f0ffff">
                         <fmt:message key="header.logged"/>
                         <c:out value="${user.userAuth.email} ${user.count} UAH"/>
+                    </font>
                     </p>
                 </div>
 

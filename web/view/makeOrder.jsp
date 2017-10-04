@@ -14,7 +14,7 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post" action="/user/makeOrder/create">
     <fieldset class="mycont">
         <div class="form-group">
             <label class="col-md-4 control-label" for="carSelect"><fmt:message key="order.car"/></label>
@@ -37,14 +37,21 @@
         </div>
         <div class="form-group">
             <h3 class="col-md-4 control-label"><fmt:message key="order.price"/>
-                <small><font color="black">${order.car.getRentPricePerHour()}</font></small>
+                <small><font color="black" id="orderPriceResult"></font></small>
             </h3>
+            <input type="hidden" name="orderPriceResultInput" id="orderPriceResultInput">
+            <button id="getPriceButton" name="getPriceButton" class="btn btn-success"
+                    onclick="calculate_order_price(); return false;">
+                <fmt:message key="order.getPrice"/>
+            </button>
         </div>
+
 
         <div>
             <button id="orderButton" name="orderButton" class="btn btn-success"><fmt:message
                     key="order.makeOrder"/></button>
         </div>
+
         </br>
         <div align="bottom|left">
             <a href="/user"><fmt:message key="transition.to.user"/></a>
@@ -55,7 +62,47 @@
         </div>
     </fieldset>
 </form>
-
+<c:forEach items="${errors}" var="item">
+    <p class="text-danger"><fmt:message key="${item}"/></p>
+    <br>
+</c:forEach>
+<p class="text-success"><fmt:message key="${success}"/></p>
+<p class="text-success"></p>
 <%@include file="footer.jsp" %>
+
+<script>
+    function calculate_order_price() {
+        var carType = document.getElementById("carSelect").value;
+        var dateFrom = new Date(document.getElementById("dateFrom").value);
+        var dateTo = new Date(document.getElementById("dateTo").value);
+
+        var timeDiff = Math.abs(dateTo.getTime() - dateFrom.getTime());
+        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        var result = 0;
+        switch (carType) {
+            case 'LADA':
+                result = diffDays * 13.5;
+                break;
+            case 'BMW':
+                result = diffDays * 20;
+                break;
+            case 'MERCEDES':
+                result = diffDays * 21;
+                break;
+            case 'HYNDAI':
+                result = diffDays * 16;
+                break;
+            default:
+                result = 0;
+        }
+        if (!isNaN(result)) {
+            document.getElementById("orderPriceResult").innerHTML = result + " UAH";
+            document.getElementById("orderPriceResultInput").value = result;
+        } else {
+            document.getElementById("orderPriceResult").innerHTML = 0 + " UAH";
+            document.getElementById("orderPriceResultInput").value = result;
+        }
+    }
+</script>
 </body>
 </html>
