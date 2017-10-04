@@ -31,14 +31,14 @@ public class Order {
         MERCEDES(21f),
         HYNDAI(16f);
 
-        private float rentPricePerHour;
+        private float rentPricePerDay;
 
-        Car(float rentPricePerHour) {
-            this.rentPricePerHour = rentPricePerHour;
+        Car(float rentPricePerDay) {
+            this.rentPricePerDay = rentPricePerDay;
         }
 
-        public float getRentPricePerHour() {
-            return rentPricePerHour;
+        public float getRentPricePerDay() {
+            return rentPricePerDay;
         }
 
         @Override
@@ -160,11 +160,11 @@ public class Order {
         this.userId = userId;
     }
 
-    public Damage getDamages() {
+    public Damage getDamage() {
         return damage;
     }
 
-    public void setDamages(Damage damage) {
+    public void setDamage(Damage damage) {
         this.damage = damage;
     }
 
