@@ -16,6 +16,14 @@ public class CommandFactory {
         commandMap.put(Path.REGISTRATION, OpenRegistrationPageCommand.getInstance());
         commandMap.put(Path.USER, OpenUserPageCommand.getInstance());
         commandMap.put(Path.MAKE_ORDER_PAGE, OpenMakeOrderPageCommand.getInstance());
+        commandMap.put(Path.SIGN_UP, RegisterUserCommand.getInstance());
+        commandMap.put(Path.SIGN_IN, LoginUserCommand.getInstance());
+        commandMap.put(Path.LOGOUT, LogoutCommand.getInstance());
+        commandMap.put(Path.CREATE_ORDER, MakeOrderCommand.getInstance());
+        commandMap.put(Path.CLIENT_ORDERS, GetClientOrdersCommand.getInstance());
+        commandMap.put(Path.ADMIN_ORDERS, GetOrdersForAdminCommand.getInstance());
+        commandMap.put(Path.ADD_DAMAGE, AddDamageToOrderCommand.getInstance());
+        commandMap.put(Path.UPDATE_ORDER, UpdateOrderCommand.getInstance());
     }
 
     private static class Holder{
