@@ -51,7 +51,6 @@ public class UpdateOrderCommand implements Command {
             return Pages.ADMIN_ORDERS;
         }
         List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
-        orders.add(order);
         request.setAttribute(Parameters.ORDERS, orders);
         return Pages.ADMIN_ORDERS;
     }

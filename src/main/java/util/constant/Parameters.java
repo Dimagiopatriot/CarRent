@@ -8,6 +8,7 @@ public interface Parameters {
     String USER = "user";
     String EMAIL = "email";
     String PASSWORD = "userpassword";
+    String SORT = "sort";
 
     String PHONE_INPUT = "userphone";
     String COUNT_INPUT = "usercount";

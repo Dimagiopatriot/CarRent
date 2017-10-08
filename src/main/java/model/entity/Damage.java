@@ -35,6 +35,7 @@ public class Damage {
 
         public Damage createDamage(){
             Damage damage = new Damage();
+            damage.setId(id);
             damage.setDamageDescription(damageDescription);
             damage.setRepairBill(repairBill);
             damage.setOrder(order);

@@ -22,6 +22,7 @@ public class CommandFactory {
         commandMap.put(Paths.CREATE_ORDER, MakeOrderCommand.getInstance());
         commandMap.put(Paths.CLIENT_ORDERS, GetClientOrdersCommand.getInstance());
         commandMap.put(Paths.ADMIN_ORDERS, GetOrdersForAdminCommand.getInstance());
+        commandMap.put(Paths.SORT_ORDERS, SortOrdersCommand.getInstance());
         commandMap.put(Paths.ADD_DAMAGE, OpenDamagePageCommand.getInstance());
         commandMap.put(Paths.CREATE_DAMAGE, AddDamageToOrderCommand.getInstance());
         commandMap.put(Paths.UPDATE_ORDER, UpdateOrderCommand.getInstance());

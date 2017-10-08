@@ -14,6 +14,7 @@ public interface Paths {
     String CREATE_DAMAGE = "/user/addDamage/create";
     String UPDATE_ORDER = "/user/updateOrder";
     String ADMIN_ORDERS = "/user/adminOrders";
+    String SORT_ORDERS = "/user/adminOrders/sort";
 
     String REGISTRATION = "/registration";
     String SIGN_UP = "/registration/signup";

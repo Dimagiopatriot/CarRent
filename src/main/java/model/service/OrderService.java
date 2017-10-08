@@ -34,13 +34,7 @@ public class OrderService {
     }
 
     public List<Order> selectOrderByUserId(int userId){
-        List<Order> orders = daoFactory.getOrderDao().selectByUserId(userId);
-        List<Order> orders1 = new ArrayList<>();
-        for (Order order: orders) {
-            Optional<Damage> damage = daoFactory.getDamageDao().selectOrderDamages(order);
-            damage.ifPresent(order::setDamage);
-        }
-        return orders;
+        return daoFactory.getOrderDao().selectByUserId(userId);
     }
 
     public boolean update(Order order){

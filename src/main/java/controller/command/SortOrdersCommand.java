@@ -9,27 +9,29 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class GetOrdersForAdminCommand implements Command{
+public class SortOrdersCommand implements Command {
 
     private OrderService orderService;
 
-    public GetOrdersForAdminCommand(OrderService orderService) {
+    public SortOrdersCommand(OrderService orderService) {
         this.orderService = orderService;
     }
 
     private static class Holder{
-        static final GetOrdersForAdminCommand INSTANCE = new GetOrdersForAdminCommand(OrderService.getInstance());
+        static final SortOrdersCommand INSTANCE = new SortOrdersCommand(OrderService.getInstance());
     }
 
-    public static GetOrdersForAdminCommand getInstance(){
+    public static SortOrdersCommand getInstance(){
         return Holder.INSTANCE;
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
+
+        Order.Status status = Order.Status.valueOf(request.getParameter(Parameters.SORT));
+        List<Order> orders = orderService.selectOrderByStatus(status);
         request.setAttribute(Parameters.ORDERS, orders);
-        request.setAttribute(Parameters.SORT, Order.Status.GET_FOR_CONFIRMATION);
+        request.setAttribute(Parameters.SORT, status);
         return Pages.ADMIN_ORDERS;
     }
 }

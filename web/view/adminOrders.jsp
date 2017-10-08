@@ -16,6 +16,30 @@
 <%@include file="header.jsp" %>
 <div class="form-horizontal">
     <fieldset class="mycont">
+        <form method="post" action="/user/adminOrders/sort">
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="sort"><fmt:message key="order.status"/></label>
+                <div class="col-md-4">
+                    <select id="sort" name="sort" class="form-control">
+                        <option value="GET_FOR_CONFIRMATION" ${sort.toString().equals("get_for_confirmation")?"selected":""}>
+                            Get for confirmation
+                        </option>
+                        <option value="ACCEPTED"${sort.toString().equals("accepted")?"selected":""}>Accepted
+                        </option>
+                        <option value="DENIED"${sort.toString().equals("denied")?"selected":""}>Denied
+                        </option>
+                        <option value="CLOSED"${sort.toString().equals("closed")?"selected":""}>Closed
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <label class="col-md-4 control-label" for="sortbutton"></label>
+            <div class="col-md-8">
+                <button id="sortbutton" name="sortbutton" class="btn btn-success">
+                    <fmt:message key="order.sort"/></button>
+            </div>
+        </form>
         <c:forEach items="${orders}" var="item" varStatus="itemRaw">
             <form method="post" action="/user/updateOrder">
                 <hr style="border-top: 1px solid #000000 !important;">
@@ -69,12 +93,17 @@
                 </div>
             </form>
 
-            <form method="post" action="/user/addDamage">
-                <input type="hidden" name="id" value="${item.id}">
-                <div align="bottom|left">
-                    <button class="btn btn-success"><fmt:message key="transition.to.damage"/></button>
-                </div>
-            </form>
+            <c:if test="${item.damage.id == 0}">
+                <form method="post" action="/user/addDamage">
+                    <input type="hidden" name="id" value="${item.id}">
+                    <div align="bottom|left">
+                        <button class="btn btn-success"><fmt:message key="transition.to.damage"/></button>
+                    </div>
+                </form>
+            </c:if>
+            <c:if test="${item.damage.id != 0}">
+                <fmt:message key="damage.alreadyAdded"/>
+            </c:if>
 
             <hr style="border-top: 1px solid #000000 !important;">
         </c:forEach>

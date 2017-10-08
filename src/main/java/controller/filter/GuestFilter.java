@@ -32,6 +32,7 @@ public class GuestFilter extends CommonVisitorFilter {
         notAllowedForGuest.add(Paths.UPDATE_PERSONAL_INFO);
         notAllowedForGuest.add(Paths.MAKE_ORDER_PAGE);
         notAllowedForGuest.add(Paths.CREATE_ORDER);
+        notAllowedForGuest.add(Paths.SORT_ORDERS);
     }
 
     @Override

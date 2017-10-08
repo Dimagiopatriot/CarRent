@@ -3,6 +3,7 @@ package model.dao.impl;
 import model.dao.OrderDao;
 import model.dao.util.ConnectionManager;
 import model.dao.util.JdbcConnection;
+import model.entity.Damage;
 import model.entity.Order;
 import org.apache.log4j.Logger;
 import util.constant.LogMessages;
@@ -17,6 +18,10 @@ public class OrderDaoImpl implements OrderDao{
 
     private ConnectionManager connectionManager;
     private static final Logger LOGGER = Logger.getLogger(OrderDaoImpl.class);
+
+    private static final String COLUMN_DAMAGE_ID = "damage.id";
+    private static final String COLUMN_DAMAGE_DESCRIPTION = "damage_description";
+    private static final String COLUMN_REPAIR_BILL = "repair_bill";
 
     private final static String COLUMN_ID = "id";
     private final static String COLUMN_CAR = "car";
@@ -35,11 +40,11 @@ public class OrderDaoImpl implements OrderDao{
     private final static int COLUMN_ID_INDEX = 7;
 
 
-    private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order WHERE order_status=?";
+    private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order " +
+            "LEFT JOIN damage ON " + "car_rent.order.id = damage.order_id where order_status =?;";
     private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
-    private final static String SELECT_QUERY_BY_USER_ID = "SELECT * FROM car_rent.order WHERE order_user_id=?;";
-    private final static String SELECT_QUERY_WITH_ORDERS = "SELECT * FROM car_rent.order LEFT JOIN damage ON " +
-            "car_rent.order.id = damage.order_id AND ?=?;";
+    private final static String SELECT_QUERY_BY_USER_ID = "SELECT * FROM car_rent.order " +
+            "LEFT JOIN damage ON " + "car_rent.order.id = damage.order_id where order_user_id =?;";
     private final static String UPDATE_QUERY  = "UPDATE car_rent.order SET car=?, date_from=?, date_to=?, " +
             "order_status=?, comment=?, order_user_id=? WHERE id=?;";
     private final static String UPDATE_STATUS_AND_COMMENT_QUERY = "UPDATE car_rent.order SET order_status=?, comment=? " +
@@ -70,7 +75,10 @@ public class OrderDaoImpl implements OrderDao{
 
             if (resultSet.isBeforeFirst()){
                 while (resultSet.next()){
-                    orders.add(buildOrder(resultSet));
+                    Order order = buildOrder(resultSet);
+                    Damage damage = buildDamage(resultSet);
+                    order.setDamage(damage);
+                    orders.add(order);
                 }
             }
         } catch (SQLException e) {
@@ -92,35 +100,15 @@ public class OrderDaoImpl implements OrderDao{
 
             if (resultSet.isBeforeFirst()){
                 while (resultSet.next()){
-                    orders.add(buildOrder(resultSet));
+                    Order order = buildOrder(resultSet);
+                    Damage damage = buildDamage(resultSet);
+                    order.setDamage(damage);
+                    orders.add(order);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
             LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT_BY_USER_ID + e.getMessage());
-            throw new DaoException();
-        }
-        return orders;
-    }
-
-    @Override
-    public List<Order> selectOrdersWithItsDamages(String column, String columnParameter) {
-        List<Order> orders = new ArrayList<>();
-        try(JdbcConnection connection = connectionManager.getConnection();
-            PreparedStatement statement =
-                    connection.prepareStatement(SELECT_QUERY_WITH_ORDERS)) {
-            statement.setString(1, column);
-            statement.setString(2, columnParameter);
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.isBeforeFirst()){
-                while (resultSet.next()){
-                    orders.add(buildOrder(resultSet));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT_ORDERS_WITH_DAMAGES + e.getMessage());
             throw new DaoException();
         }
         return orders;
@@ -226,5 +214,13 @@ public class OrderDaoImpl implements OrderDao{
                 .addComment(resultSet.getString(COLUMN_COMMENT))
                 .addUserId(resultSet.getInt(COLUMN_USER_ID))
                 .createOrder();
+    }
+
+    private Damage buildDamage(ResultSet resultSet) throws SQLException {
+        return new Damage.Builder()
+                .addId(resultSet.getInt(COLUMN_DAMAGE_ID))
+                .addDamageDescription(resultSet.getString(COLUMN_DAMAGE_DESCRIPTION))
+                .addRepairBill(resultSet.getFloat(COLUMN_REPAIR_BILL))
+                .createDamage();
     }
 }
