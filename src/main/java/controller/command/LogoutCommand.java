@@ -1,6 +1,6 @@
 package controller.command;
 
-import util.constant.Page;
+import util.constant.Pages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +18,6 @@ public class LogoutCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
-        return Page.MAIN;
+        return Pages.MAIN;
     }
 }

@@ -1,6 +1,6 @@
 package controller.command;
 
-import util.constant.Path;
+import util.constant.Paths;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -12,18 +12,20 @@ public class CommandFactory {
 
     CommandFactory(){
         commandMap = new HashMap<>();
-        commandMap.put(Path.LOGIN, OpenLoginPageCommand.getInstance());
-        commandMap.put(Path.REGISTRATION, OpenRegistrationPageCommand.getInstance());
-        commandMap.put(Path.USER, OpenUserPageCommand.getInstance());
-        commandMap.put(Path.MAKE_ORDER_PAGE, OpenMakeOrderPageCommand.getInstance());
-        commandMap.put(Path.SIGN_UP, RegisterUserCommand.getInstance());
-        commandMap.put(Path.SIGN_IN, LoginUserCommand.getInstance());
-        commandMap.put(Path.LOGOUT, LogoutCommand.getInstance());
-        commandMap.put(Path.CREATE_ORDER, MakeOrderCommand.getInstance());
-        commandMap.put(Path.CLIENT_ORDERS, GetClientOrdersCommand.getInstance());
-        commandMap.put(Path.ADMIN_ORDERS, GetOrdersForAdminCommand.getInstance());
-        commandMap.put(Path.ADD_DAMAGE, AddDamageToOrderCommand.getInstance());
-        commandMap.put(Path.UPDATE_ORDER, UpdateOrderCommand.getInstance());
+        commandMap.put(Paths.LOGIN, OpenLoginPageCommand.getInstance());
+        commandMap.put(Paths.REGISTRATION, OpenRegistrationPageCommand.getInstance());
+        commandMap.put(Paths.USER, OpenUserPageCommand.getInstance());
+        commandMap.put(Paths.MAKE_ORDER_PAGE, OpenMakeOrderPageCommand.getInstance());
+        commandMap.put(Paths.SIGN_UP, RegisterUserCommand.getInstance());
+        commandMap.put(Paths.SIGN_IN, LoginUserCommand.getInstance());
+        commandMap.put(Paths.LOGOUT, LogoutCommand.getInstance());
+        commandMap.put(Paths.CREATE_ORDER, MakeOrderCommand.getInstance());
+        commandMap.put(Paths.CLIENT_ORDERS, GetClientOrdersCommand.getInstance());
+        commandMap.put(Paths.ADMIN_ORDERS, GetOrdersForAdminCommand.getInstance());
+        commandMap.put(Paths.ADD_DAMAGE, OpenDamagePageCommand.getInstance());
+        commandMap.put(Paths.CREATE_DAMAGE, AddDamageToOrderCommand.getInstance());
+        commandMap.put(Paths.UPDATE_ORDER, UpdateOrderCommand.getInstance());
+        commandMap.put(Paths.UPDATE_PERSONAL_INFO, UpdateClientInformationCommand.getInstance());
     }
 
     private static class Holder{

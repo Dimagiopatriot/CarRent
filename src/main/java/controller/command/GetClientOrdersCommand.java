@@ -3,7 +3,7 @@ package controller.command;
 import model.entity.Order;
 import model.entity.User;
 import model.service.OrderService;
-import util.constant.Page;
+import util.constant.Pages;
 import util.constant.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +31,6 @@ public class GetClientOrdersCommand implements Command{
         int userId = ((User)request.getSession().getAttribute(Parameters.USER)).getUserAuth().getId();
         List<Order> orders = orderService.selectOrderByUserId(userId);
         request.setAttribute(Parameters.ORDERS, orders);
-        return Page.CLIENT_ORDERS;
+        return Pages.CLIENT_ORDERS;
     }
 }

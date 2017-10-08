@@ -1,12 +1,10 @@
 package controller.command;
 
 import model.entity.User;
-import model.entity.UserAuth;
-import model.service.UserAuthService;
 import model.service.UserService;
 import util.Validator;
 import util.constant.Messages;
-import util.constant.Page;
+import util.constant.Pages;
 import util.constant.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,17 +36,17 @@ public class LoginUserCommand implements Command {
         List<String> errors = validateParams(email, password);
         if (!errors.isEmpty()){
             setAttributes(request, email, errors);
-            return Page.LOGIN;
+            return Pages.LOGIN;
         }
 
         Optional<User> user = userService.selectByEmailPassword(email, password);
         if (!user.isPresent()){
             errors.add(Messages.LOGIN_ERROR);
             setAttributes(request, email, errors);
-            return Page.LOGIN;
+            return Pages.LOGIN;
         }
         request.getSession().setAttribute(Parameters.USER, user.get());
-        return Page.USER;
+        return Pages.USER;
     }
 
 

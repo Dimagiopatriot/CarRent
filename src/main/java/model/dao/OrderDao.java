@@ -9,4 +9,6 @@ public interface OrderDao extends GenericDao<Order> {
 
     List<Order> selectOrdersByStatus(Order.Status status);
     List<Order> selectByUserId(int userId);
+    List<Order> selectOrdersWithItsDamages(String column, String columnParameter);
+    boolean updateStatusAndComment(Order order);
 }

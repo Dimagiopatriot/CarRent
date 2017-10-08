@@ -4,6 +4,8 @@ import model.dao.UserAuthDao;
 import model.dao.util.ConnectionManager;
 import model.dao.util.JdbcConnection;
 import model.entity.UserAuth;
+import org.apache.log4j.Logger;
+import util.constant.LogMessages;
 import util.exception.DaoException;
 
 import java.sql.PreparedStatement;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class UserAuthDaoImpl implements UserAuthDao {
 
     private ConnectionManager connectionManager;
+
+    private static final Logger LOGGER = Logger.getLogger(UserAuthDaoImpl.class);
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_EMAIL = "email";
@@ -55,7 +59,8 @@ public class UserAuthDaoImpl implements UserAuthDao {
 
             userAuth = Optional.of(buildUserAuth(resultSet));
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+            LOGGER.info(UserAuthDaoImpl.class.toString() + LogMessages.SELECT_BY_EMAIL_PASSWORD + e.getMessage());
             return userAuth;
         }
         return userAuth;
@@ -80,6 +85,7 @@ public class UserAuthDaoImpl implements UserAuthDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserAuthDaoImpl.class.toString() + LogMessages.UPDATE + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -104,6 +110,7 @@ public class UserAuthDaoImpl implements UserAuthDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserAuthDaoImpl.class.toString() +LogMessages.INSERT + e.getMessage());
         }
         return updatedRow > 0;
     }
@@ -120,7 +127,8 @@ public class UserAuthDaoImpl implements UserAuthDao {
 
             userAuth = Optional.of(buildUserAuth(resultSet));
         } catch (SQLException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
+            LOGGER.info(UserAuthDaoImpl.class.toString() + LogMessages.SELECT + e.getMessage());
             return userAuth;
         }
         return userAuth;

@@ -4,6 +4,8 @@ import model.dao.OrderDao;
 import model.dao.util.ConnectionManager;
 import model.dao.util.JdbcConnection;
 import model.entity.Order;
+import org.apache.log4j.Logger;
+import util.constant.LogMessages;
 import util.exception.DaoException;
 
 import java.sql.*;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class OrderDaoImpl implements OrderDao{
 
     private ConnectionManager connectionManager;
+    private static final Logger LOGGER = Logger.getLogger(OrderDaoImpl.class);
 
     private final static String COLUMN_ID = "id";
     private final static String COLUMN_CAR = "car";
@@ -35,8 +38,12 @@ public class OrderDaoImpl implements OrderDao{
     private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order WHERE order_status=?";
     private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
     private final static String SELECT_QUERY_BY_USER_ID = "SELECT * FROM car_rent.order WHERE order_user_id=?;";
+    private final static String SELECT_QUERY_WITH_ORDERS = "SELECT * FROM car_rent.order LEFT JOIN damage ON " +
+            "car_rent.order.id = damage.order_id AND ?=?;";
     private final static String UPDATE_QUERY  = "UPDATE car_rent.order SET car=?, date_from=?, date_to=?, " +
             "order_status=?, comment=?, order_user_id=? WHERE id=?;";
+    private final static String UPDATE_STATUS_AND_COMMENT_QUERY = "UPDATE car_rent.order SET order_status=?, comment=? " +
+            "WHERE id=?;";
     private final static String INSERT_QUERY = "INSERT INTO car_rent.order(car, date_from, date_to, order_status, " +
             "comment, order_user_id) VALUES (?, ?, ?, ?, ?, ?);";
 
@@ -68,6 +75,7 @@ public class OrderDaoImpl implements OrderDao{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT_BY_STATUS + e.getMessage());
             throw new DaoException();
         }
         return orders;
@@ -89,9 +97,52 @@ public class OrderDaoImpl implements OrderDao{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT_BY_USER_ID + e.getMessage());
             throw new DaoException();
         }
         return orders;
+    }
+
+    @Override
+    public List<Order> selectOrdersWithItsDamages(String column, String columnParameter) {
+        List<Order> orders = new ArrayList<>();
+        try(JdbcConnection connection = connectionManager.getConnection();
+            PreparedStatement statement =
+                    connection.prepareStatement(SELECT_QUERY_WITH_ORDERS)) {
+            statement.setString(1, column);
+            statement.setString(2, columnParameter);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.isBeforeFirst()){
+                while (resultSet.next()){
+                    orders.add(buildOrder(resultSet));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT_ORDERS_WITH_DAMAGES + e.getMessage());
+            throw new DaoException();
+        }
+        return orders;
+    }
+
+    @Override
+    public boolean updateStatusAndComment(Order order) {
+        int updatedRow = 0;
+        try (JdbcConnection connection = connectionManager.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(UPDATE_STATUS_AND_COMMENT_QUERY)){
+
+            statement.setString(1, order.getStatus().toString());
+            statement.setString(2, order.getComment());
+            statement.setInt(3, order.getId());
+            updatedRow = statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.UPDATE_STATUS_AND_COMMENT + e.getMessage());
+            throw new DaoException();
+        }
+        return updatedRow > 0;
     }
 
     @Override
@@ -111,6 +162,7 @@ public class OrderDaoImpl implements OrderDao{
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.UPDATE + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -138,6 +190,7 @@ public class OrderDaoImpl implements OrderDao{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.INSERT + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -156,6 +209,7 @@ public class OrderDaoImpl implements OrderDao{
             order = Optional.of(buildOrder(resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + LogMessages.SELECT + e.getMessage());
             throw new DaoException();
         }
 

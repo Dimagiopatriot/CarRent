@@ -1,6 +1,6 @@
 package util.constant;
 
-public interface Page {
+public interface Pages {
 
     String MAIN = "index";
     String LOGIN = "login";
@@ -10,4 +10,5 @@ public interface Page {
     String ADMIN_ORDERS = "adminOrders";
     String CLIENT_ORDERS = "clientOrders";
     String ERROR = "error";
+    String DAMAGE = "damage";
 }

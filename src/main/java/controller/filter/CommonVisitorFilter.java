@@ -2,7 +2,7 @@ package controller.filter;
 
 import model.entity.User;
 import util.constant.Parameters;
-import util.constant.Path;
+import util.constant.Paths;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public abstract class CommonVisitorFilter implements Filter {
         }
 
         if(isNotAllowed(req, user)) {
-            resp.sendRedirect(Path.MAIN);
+            resp.sendRedirect(Paths.MAIN);
             return;
         }
 

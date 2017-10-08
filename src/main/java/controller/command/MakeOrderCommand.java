@@ -5,7 +5,7 @@ import model.entity.User;
 import model.service.OrderService;
 import util.Validator;
 import util.constant.Messages;
-import util.constant.Page;
+import util.constant.Pages;
 import util.constant.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,15 +38,15 @@ public class MakeOrderCommand implements Command {
         errors.addAll(validateUserCount(request));
         if (!errors.isEmpty()){
             setAttributes(request, order, errors);
-            return Page.MAKE_ORDER;
+            return Pages.MAKE_ORDER;
         }
         if (!orderService.insert(order)){
-            errors.add(Messages.ORDER_ERROR);
+            errors.add(Messages.ERROR);
             setAttributes(request, order, errors);
-            return Page.MAKE_ORDER;
+            return Pages.MAKE_ORDER;
         }
         request.setAttribute(Parameters.SUCCESS, Messages.SUCCESS_ORDER_MESSAGE);
-        return Page.MAKE_ORDER;
+        return Pages.MAKE_ORDER;
     }
 
     private void setAttributes(HttpServletRequest request, Order order, List<String> errors){

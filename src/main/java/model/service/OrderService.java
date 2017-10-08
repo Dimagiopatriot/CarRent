@@ -2,10 +2,12 @@ package model.service;
 
 import model.dao.util.ConnectionManager;
 import model.dao.util.DaoFactory;
+import model.entity.Damage;
 import model.entity.Order;
 import model.entity.User;
 import util.exception.DaoException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,11 +34,21 @@ public class OrderService {
     }
 
     public List<Order> selectOrderByUserId(int userId){
-        return daoFactory.getOrderDao().selectByUserId(userId);
+        List<Order> orders = daoFactory.getOrderDao().selectByUserId(userId);
+        List<Order> orders1 = new ArrayList<>();
+        for (Order order: orders) {
+            Optional<Damage> damage = daoFactory.getDamageDao().selectOrderDamages(order);
+            damage.ifPresent(order::setDamage);
+        }
+        return orders;
     }
 
     public boolean update(Order order){
         return daoFactory.getOrderDao().update(order);
+    }
+
+    public boolean updateStatusAndComment(Order order){
+        return daoFactory.getOrderDao().updateStatusAndComment(order);
     }
 
     public boolean updateWithUserCountChange(Order order, User user){

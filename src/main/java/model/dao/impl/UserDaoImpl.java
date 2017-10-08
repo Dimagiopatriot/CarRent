@@ -5,6 +5,8 @@ import model.dao.util.ConnectionManager;
 import model.dao.util.JdbcConnection;
 import model.entity.User;
 import model.service.UserService;
+import org.apache.log4j.Logger;
+import util.constant.LogMessages;
 import util.exception.DaoException;
 
 import java.sql.PreparedStatement;
@@ -16,6 +18,7 @@ import java.util.Optional;
 public class UserDaoImpl implements UserDao {
 
     private ConnectionManager connectionManager;
+    private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
 
     private final static String COLUMN_ID = "id";
     private final static String COLUMN_USER_NAME = "user_name";
@@ -55,6 +58,7 @@ public class UserDaoImpl implements UserDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserDaoImpl.class.toString() + LogMessages.UPDATE_USER_PHONE + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -72,6 +76,7 @@ public class UserDaoImpl implements UserDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserDaoImpl.class.toString() + LogMessages.UPDATE_USER_COUNT + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -92,6 +97,7 @@ public class UserDaoImpl implements UserDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserDaoImpl.class.toString() + LogMessages.UPDATE + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -112,6 +118,7 @@ public class UserDaoImpl implements UserDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserDaoImpl.class.toString() + LogMessages.INSERT + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -130,6 +137,7 @@ public class UserDaoImpl implements UserDao {
             user = Optional.of(buildUser(resultSet));
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(UserDaoImpl.class.toString() + LogMessages.SELECT + e.getMessage());
             throw new DaoException();
         }
         return user;

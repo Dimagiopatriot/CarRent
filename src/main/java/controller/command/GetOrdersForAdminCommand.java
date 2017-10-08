@@ -2,7 +2,7 @@ package controller.command;
 
 import model.entity.Order;
 import model.service.OrderService;
-import util.constant.Page;
+import util.constant.Pages;
 import util.constant.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +29,6 @@ public class GetOrdersForAdminCommand implements Command{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
         request.setAttribute(Parameters.ORDERS, orders);
-        return Page.ADMIN_ORDERS;
+        return Pages.ADMIN_ORDERS;
     }
 }

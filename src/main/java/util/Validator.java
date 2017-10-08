@@ -11,6 +11,7 @@ public class Validator {
             Pattern.CASE_INSENSITIVE);
     private static final Pattern VALID_PHONE_REGEX = Pattern.compile("^(\\+\\d{1,2}\\s?)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{2}\\s?\\d{2}$");
     private static final Pattern VALID_NAME_SURNAME_REGEX = Pattern.compile("^[\\p{L} .'-]+$");
+    private static final Pattern VALID_USER_COUNT = Pattern.compile("^[+]?[0-9]*\\.?[0-9]+$");
 
     public static Validator getInstance(){
         return new Validator();
@@ -33,6 +34,11 @@ public class Validator {
 
     public boolean validateNameOrSurname(String nameOrSurname){
         Matcher matcher = VALID_NAME_SURNAME_REGEX.matcher(nameOrSurname);
+        return matcher.find();
+    }
+
+    public boolean validateUserCount(String count){
+        Matcher matcher = VALID_USER_COUNT.matcher(count);
         return matcher.find();
     }
 

@@ -19,43 +19,43 @@
     <fieldset class="mycont">
 
         <c:forEach items="${orders}" var="item">
-            <hr>
+            <hr style="border-top: 1px solid #000000 !important;">
             <div class="form-group">
-                <h3 class="col-md-4 control-label"><fmt:message key="order.car"/>
+                <h3 class="col-sm-6 control-label"><fmt:message key="order.car"/>
                     <small><font color="black">${item.car.toString()}</font></small>
                 </h3>
             </div>
             <div class="form-group">
-                <h3 class="col-md-4 control-label"><fmt:message key="order.period"/>
+                <h3 class="col-sm-6 control-label"><fmt:message key="order.period"/>
                     <small><font color="black">${item.dateStartRent.toString()} - ${item.dateEndRent.toString()}</font>
                     </small>
                 </h3>
             </div>
             <div class="form-group">
-                <h3 class="col-md-4 control-label"><fmt:message key="order.status"/>
+                <h3 class="col-sm-6 control-label"><fmt:message key="order.status"/>
                     <small><font color="black">${item.status.toString()}</font></small>
                 </h3>
             </div>
             <div class="form-group">
-                <h3 class="col-md-4 control-label"><fmt:message key="order.comment"/>
+                <h3 class="col-sm-6 control-label"><fmt:message key="order.comment"/>
                     <small><font color="black">${item.comment}</font></small>
                 </h3>
             </div>
             <div class="form-group">
-                <h3 class="col-md-4 control-label"><u><fmt:message key="order.damage"/></u></h3>
+                <h3 class="col-sm-6 control-label"><u><fmt:message key="order.damage"/></u></h3>
             </div>
 
             <div class="form-group">
-                <h4 class="col-md-4 control-label" id="damageDescription"><fmt:message key="damage.description"/>
+                <h4 class="col-sm-6 control-label" id="damageDescription"><fmt:message key="damage.description"/>
                     <small><font color="black">${item.damage.damageDescription}</font></small>
                 </h4>
             </div>
             <div class="form-group">
-                <h4 class="col-md-4 control-label" id="damageRepairBill"><fmt:message key="damage.repairBill"/>
+                <h4 class="col-sm-6 control-label" id="damageRepairBill"><fmt:message key="damage.repairBill"/>
                     <small><font color="black">-- ${item.damage.repairBill}</font></small>
                 </h4>
             </div>
-            <hr>
+            <hr style="border-top: 1px solid #000000 !important;">
         </c:forEach>
         <div align="bottom|left">
             <a href="/user"><fmt:message key="transition.to.user"/> </a>

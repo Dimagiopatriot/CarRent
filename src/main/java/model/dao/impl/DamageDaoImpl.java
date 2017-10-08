@@ -5,19 +5,21 @@ import model.dao.util.ConnectionManager;
 import model.dao.util.JdbcConnection;
 import model.entity.Damage;
 import model.entity.Order;
+import org.apache.log4j.Logger;
+import util.constant.LogMessages;
 import util.exception.DaoException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class DamageDaoImpl implements DamageDao {
 
     private ConnectionManager connectionManager;
+
+    private static final Logger LOGGER = Logger.getLogger(DamageDaoImpl.class);
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_ORDER_ID = "order_id";
@@ -45,16 +47,19 @@ public class DamageDaoImpl implements DamageDao {
 
     @Override
     public Optional<Damage> selectOrderDamages(Order order) {
-        Optional<Damage> damage;
+        Optional<Damage> damage = Optional.empty();
         try(JdbcConnection connection = connectionManager.getConnection();
             PreparedStatement statement =
                     connection.prepareStatement(SELECT_QUERY_BY_ORDER_ID)) {
             statement.setInt(1, order.getId());
             ResultSet resultSet = statement.executeQuery();
 
-            resultSet.next();
+            if (!resultSet.next()){
+                return damage;
+            }
             damage = Optional.of(buildDamage(resultSet));
         } catch (SQLException e) {
+            LOGGER.info(DamageDaoImpl.class.toString() + LogMessages.SELECT_ORDER_DAMAGES + e.getMessage());
             e.printStackTrace();
             throw new DaoException();
         }
@@ -76,6 +81,7 @@ public class DamageDaoImpl implements DamageDao {
             updatedRow = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(DamageDaoImpl.class.toString() + LogMessages.UPDATE + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -100,6 +106,7 @@ public class DamageDaoImpl implements DamageDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            LOGGER.info(DamageDaoImpl.class.toString() + LogMessages.INSERT + e.getMessage());
             throw new DaoException();
         }
         return updatedRow > 0;
@@ -117,6 +124,7 @@ public class DamageDaoImpl implements DamageDao {
             resultSet.next();
             damage = Optional.of(buildDamage(resultSet));
         } catch (SQLException e) {
+            LOGGER.info(DamageDaoImpl.class.toString() + LogMessages.SELECT + e.getMessage());
             e.printStackTrace();
             throw new DaoException();
         }

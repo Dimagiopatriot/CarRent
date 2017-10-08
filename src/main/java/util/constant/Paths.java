@@ -1,6 +1,6 @@
 package util.constant;
 
-public interface Path {
+public interface Paths {
     String MAIN = "/";
     String LOGIN = "/login";
     String LOGOUT = "/logout";
@@ -11,9 +11,9 @@ public interface Path {
     String MAKE_ORDER_PAGE = "/user/makeOrder";
     String CREATE_ORDER = "/user/makeOrder/create";
     String ADD_DAMAGE = "/user/addDamage";
+    String CREATE_DAMAGE = "/user/addDamage/create";
     String UPDATE_ORDER = "/user/updateOrder";
     String ADMIN_ORDERS = "/user/adminOrders";
-    String ADMIN_ORDERS_SORT = "/user/adminOrders/sort";
 
     String REGISTRATION = "/registration";
     String SIGN_UP = "/registration/signup";

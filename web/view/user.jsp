@@ -14,23 +14,23 @@
 </head>
 <body>
 <%@include file="header.jsp" %>
-<div class="form-horizontal">
+<form method="post" action="/user/clientUpdate" class="form-horizontal">
     <fieldset class="mycont">
 
         <div class="form-group">
-            <h3 class="col-md-4 control-label"><fmt:message key="user.name"/>
+            <h3 class="col-sm-6 control-label"><fmt:message key="user.name"/>
                 <small><font color="black">${user.name}</font></small>
             </h3>
         </div>
 
         <div class="form-group">
-            <h3 class="col-md-4 control-label"><fmt:message key="user.surname"/>
+            <h3 class="col-sm-6 control-label"><fmt:message key="user.surname"/>
                 <small><font color="black"> ${user.surname}</font></small>
             </h3>
         </div>
 
         <div class="form-group">
-            <h3 class="col-md-4 control-label"><fmt:message key="email"/>
+            <h3 class="col-sm-6 control-label"><fmt:message key="email"/>
                 <small><font color="black"> ${user.userAuth.email}</font></small>
             </h3>
         </div>
@@ -39,9 +39,8 @@
             <div class="form-group">
                 <label class="col-md-4 control-label" for="userphone"><fmt:message key="user.phone"/></label>
                 <div class="col-md-4">
-                    <input id="userphone" name="userphone" min="0" type="number" placeholder="+380_ _ _ _ _ _ _ _"
+                    <input id="userphone" name="userphone" placeholder="+380_ _ _ _ _ _ _ _"
                            value="${user.phone}"
-                           required="required"
                            class="form-control input-md">
 
                 </div>
@@ -50,7 +49,7 @@
                 <label class="col-md-4 control-label" for="usercount"><fmt:message key="user.count"/></label>
                 <div class="col-md-4">
                     <input id="usercount" name="usercount" min="0" value="${user.count}" type="number"
-                           required="required" placeholder="in UAH"
+                           placeholder="in UAH"
                            class="form-control input-md">
 
                 </div>
@@ -66,7 +65,12 @@
             <a href="/user/adminOrders"><fmt:message key="transition.to.orders"/> </a>
         </c:if>
     </fieldset>
-</div>
+    <c:forEach items="${errors}" var="item">
+        <p class="text-danger"><fmt:message key="${item}"/></p>
+        <br>
+    </c:forEach>
+    <p class="text-success"><fmt:message key="${success}"/></p>
+</form>
 
 <%@include file="footer.jsp" %>
 </body>

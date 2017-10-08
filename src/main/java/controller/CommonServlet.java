@@ -2,8 +2,10 @@ package controller;
 
 import controller.command.Command;
 import controller.command.CommandFactory;
+import org.apache.log4j.Logger;
 import util.PathBuilder;
-import util.constant.Page;
+import util.constant.LogMessages;
+import util.constant.Pages;
 import util.exception.DaoException;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class CommonServlet extends HttpServlet {
+
+    private final static Logger LOGGER = Logger.getLogger(CommonServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,9 +42,14 @@ public class CommonServlet extends HttpServlet {
         String page = null;
         try {
             page = command.execute(request, response);
-        } catch (Exception e){
-            page = Page.ERROR;
+        }catch (DaoException e){
+            page = Pages.ERROR;
             e.printStackTrace();
+            LOGGER.info(CommonServlet.class.toString() + LogMessages.ERROR_IN_DAO + e.getMessage());
+        } catch (Exception e){
+            page = Pages.ERROR;
+            e.printStackTrace();
+            LOGGER.error(e);
         }
 
         return page;

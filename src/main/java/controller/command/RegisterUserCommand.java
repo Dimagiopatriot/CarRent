@@ -5,7 +5,7 @@ import model.entity.UserAuth;
 import model.service.UserService;
 import util.Validator;
 import util.constant.Messages;
-import util.constant.Page;
+import util.constant.Pages;
 import util.constant.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,16 +35,16 @@ public class RegisterUserCommand implements Command {
         List<String> errors = validateParams(user);
         if (!errors.isEmpty()) {
             setAttributes(request, user, errors);
-            return Page.REGISTRATION;
+            return Pages.REGISTRATION;
         }
 
         if (!userService.insert(user)) {
             errors.add(Messages.REGISTRATION_ERROR);
             setAttributes(request, user, errors);
-            return Page.REGISTRATION;
+            return Pages.REGISTRATION;
         }
         request.getSession().setAttribute(Parameters.USER, user);
-        return Page.USER;
+        return Pages.USER;
     }
 
     private void setAttributes(HttpServletRequest request, User user, List<String> errors) {

@@ -25,10 +25,6 @@ public class UserAuthService {
         return daoFactory.getUserAuthDao().selectByEmailPassword(email, password);
     }
 
-    public boolean deleteById(int id){
-        return daoFactory.getUserAuthDao().deleteById(id);
-    }
-
     public boolean update(UserAuth userAuth){
         return daoFactory.getUserAuthDao().update(userAuth);
     }

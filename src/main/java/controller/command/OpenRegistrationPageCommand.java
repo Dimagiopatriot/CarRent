@@ -1,6 +1,6 @@
 package controller.command;
 
-import util.constant.Page;
+import util.constant.Pages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +17,6 @@ public class OpenRegistrationPageCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return Page.REGISTRATION;
+        return Pages.REGISTRATION;
     }
 }

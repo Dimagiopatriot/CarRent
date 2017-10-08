@@ -2,7 +2,7 @@ package controller.filter;
 
 import model.entity.User;
 import model.entity.UserAuth;
-import util.constant.Path;
+import util.constant.Paths;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -23,12 +23,12 @@ public class AdminFilter extends CommonVisitorFilter {
     public void init(FilterConfig filterConfig) throws ServletException {
 
         notAllowedForAdmin = new ArrayList<>();
-        notAllowedForAdmin.add(Path.LOGIN);
-        notAllowedForAdmin.add(Path.REGISTRATION);
-        notAllowedForAdmin.add(Path.CLIENT_ORDERS);
-        notAllowedForAdmin.add(Path.UPDATE_PERSONAL_INFO);
-        notAllowedForAdmin.add(Path.MAKE_ORDER_PAGE);
-        notAllowedForAdmin.add(Path.CREATE_ORDER);
+        notAllowedForAdmin.add(Paths.LOGIN);
+        notAllowedForAdmin.add(Paths.REGISTRATION);
+        notAllowedForAdmin.add(Paths.CLIENT_ORDERS);
+        notAllowedForAdmin.add(Paths.UPDATE_PERSONAL_INFO);
+        notAllowedForAdmin.add(Paths.MAKE_ORDER_PAGE);
+        notAllowedForAdmin.add(Paths.CREATE_ORDER);
     }
 
     @Override

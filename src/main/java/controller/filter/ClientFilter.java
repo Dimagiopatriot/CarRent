@@ -2,7 +2,7 @@ package controller.filter;
 
 import model.entity.User;
 import model.entity.UserAuth;
-import util.constant.Path;
+import util.constant.Paths;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -23,12 +23,12 @@ public class ClientFilter extends CommonVisitorFilter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         notAllowedForClient = new ArrayList<>();
-        notAllowedForClient.add(Path.LOGIN);
-        notAllowedForClient.add(Path.REGISTRATION);
-        notAllowedForClient.add(Path.ADD_DAMAGE);
-        notAllowedForClient.add(Path.UPDATE_ORDER);
-        notAllowedForClient.add(Path.ADMIN_ORDERS);
-        notAllowedForClient.add(Path.ADMIN_ORDERS_SORT);
+        notAllowedForClient.add(Paths.LOGIN);
+        notAllowedForClient.add(Paths.REGISTRATION);
+        notAllowedForClient.add(Paths.ADD_DAMAGE);
+        notAllowedForClient.add(Paths.UPDATE_ORDER);
+        notAllowedForClient.add(Paths.ADMIN_ORDERS);
+        notAllowedForClient.add(Paths.CREATE_DAMAGE);
     }
 
     @Override

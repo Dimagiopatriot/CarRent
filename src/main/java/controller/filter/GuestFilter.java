@@ -1,8 +1,7 @@
 package controller.filter;
 
 import model.entity.User;
-import util.constant.Page;
-import util.constant.Path;
+import util.constant.Paths;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -23,16 +22,16 @@ public class GuestFilter extends CommonVisitorFilter {
     public void init(FilterConfig filterConfig) throws ServletException {
 
         notAllowedForGuest = new ArrayList<>();
-        notAllowedForGuest.add(Path.LOGOUT);
-        notAllowedForGuest.add(Path.USER);
-        notAllowedForGuest.add(Path.ADD_DAMAGE);
-        notAllowedForGuest.add(Path.UPDATE_ORDER);
-        notAllowedForGuest.add(Path.ADMIN_ORDERS);
-        notAllowedForGuest.add(Path.ADMIN_ORDERS_SORT);
-        notAllowedForGuest.add(Path.CLIENT_ORDERS);
-        notAllowedForGuest.add(Path.UPDATE_PERSONAL_INFO);
-        notAllowedForGuest.add(Path.MAKE_ORDER_PAGE);
-        notAllowedForGuest.add(Path.CREATE_ORDER);
+        notAllowedForGuest.add(Paths.LOGOUT);
+        notAllowedForGuest.add(Paths.USER);
+        notAllowedForGuest.add(Paths.ADD_DAMAGE);
+        notAllowedForGuest.add(Paths.UPDATE_ORDER);
+        notAllowedForGuest.add(Paths.ADMIN_ORDERS);
+        notAllowedForGuest.add(Paths.CREATE_DAMAGE);
+        notAllowedForGuest.add(Paths.CLIENT_ORDERS);
+        notAllowedForGuest.add(Paths.UPDATE_PERSONAL_INFO);
+        notAllowedForGuest.add(Paths.MAKE_ORDER_PAGE);
+        notAllowedForGuest.add(Paths.CREATE_ORDER);
     }
 
     @Override

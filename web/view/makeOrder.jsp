@@ -67,7 +67,6 @@
     <br>
 </c:forEach>
 <p class="text-success"><fmt:message key="${success}"/></p>
-<p class="text-success"></p>
 <%@include file="footer.jsp" %>
 
 <script>

@@ -9,6 +9,11 @@ public interface Parameters {
     String EMAIL = "email";
     String PASSWORD = "userpassword";
 
+    String PHONE_INPUT = "userphone";
+    String COUNT_INPUT = "usercount";
+
+    String ID = "id";
+    String USER_ID = "userId";
     String CAR = "carSelect";
     String STATUS = "statusSelect";
     String DATE_FROM = "dateFrom";

@@ -22,7 +22,9 @@ a, a:visited, a:active, .language-btn {
     text-decoration: none !important;
 
 }
-
+.custom-hr{
+    border-top: 1px solid #000;
+}
 .welcome-title {
     margin-top: 200px;
     text-align: center;
