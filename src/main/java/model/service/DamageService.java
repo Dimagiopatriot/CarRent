@@ -3,6 +3,7 @@ package model.service;
 import model.dao.util.DaoFactory;
 import model.entity.Damage;
 import model.entity.Order;
+import util.exception.DaoException;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,11 @@ public class DamageService {
     }
 
     public boolean insert(Damage damage){
-        return daoFactory.getDamageDao().insert(damage);
+        try {
+            return daoFactory.getDamageDao().insert(damage);
+        } catch (DaoException e){
+            return false;
+        }
     }
 
     public Optional<Damage> select(int id){
