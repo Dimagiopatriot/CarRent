@@ -77,6 +77,10 @@ public class MakeOrderCommand implements Command {
     private List<String> validateDates(Order order){
         List<String> errors = new ArrayList<>();
         Validator validator = Validator.getInstance();
+        if (order.getDateStartRent() == null || order.getDateEndRent() == null){
+            errors.add(Messages.STUB_ERROR_MESSAGE);
+            return errors;
+        }
         if (!validator.validateDate(dateCast(order.getDateStartRent()), dateCast(order.getDateEndRent()))){
             errors.add(Messages.WRONG_DATE_ERROR);
         }

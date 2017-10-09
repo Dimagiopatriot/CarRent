@@ -32,6 +32,9 @@ public class RegisterUserCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         User user = createUserFromRequest(request);
+        if (user.getName() == null || user.getSurname() == null || user.getPhone() == null || user.getUserAuth() == null) {
+            return Pages.MAIN;
+        }
         List<String> errors = validateParams(user);
         if (!errors.isEmpty()) {
             setAttributes(request, user, errors);

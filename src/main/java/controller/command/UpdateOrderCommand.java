@@ -43,11 +43,15 @@ public class UpdateOrderCommand implements Command {
         Optional<User> user = retrieveUser(order.getUserId());
         if (!user.isPresent()){
             request.setAttribute(Parameters.ERROR_ORDER_UPDATE, Messages.ERROR_ORDER_UPDATE);
+            List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
+            request.setAttribute(Parameters.ORDERS, orders);
             return Pages.ADMIN_ORDERS;
         }
 
         if (!updateStrategy(order, user.get())) {
-            request.setAttribute(Parameters.ERROR_ORDER_UPDATE, Messages.ERROR_ORDER_UPDATE);
+            request.setAttribute(Parameters.ERROR_ORDER_UPDATE, Messages.ERROR_ORDER_UPDATE_NOT_ENOUGH_MONEY);
+            List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
+            request.setAttribute(Parameters.ORDERS, orders);
             return Pages.ADMIN_ORDERS;
         }
         List<Order> orders = orderService.selectOrderByStatus(Order.Status.GET_FOR_CONFIRMATION);
@@ -84,6 +88,9 @@ public class UpdateOrderCommand implements Command {
     private boolean updateStrategy(Order order, User user) {
         if (order.getStatus().equals(Order.Status.ACCEPTED)) {
             float newUserCount = calculateOrderPrice.calculateUserCountAfterOrderApproving(order, user.getCount());
+            if (newUserCount < 0f){
+                return false;
+            }
             user.setCount(newUserCount);
             return orderService.updateWithUserCountChange(order, user);
         } else {

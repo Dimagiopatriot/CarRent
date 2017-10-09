@@ -74,6 +74,10 @@ public class UpdateClientInformationCommand implements Command {
     private List<String> validateParams(String phone, String count){
         List<String> errors = new ArrayList<>();
         Validator validator = Validator.getInstance();
+        if (phone == null || count == null){
+            errors.add(Messages.STUB_ERROR_MESSAGE);
+            return errors;
+        }
         if (!validator.validatePhone(phone)){
             errors.add(Messages.PHONE_ERROR);
         }

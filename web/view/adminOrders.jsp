@@ -85,8 +85,8 @@
 
                     </div>
                 </div>
-                <p class="text-success"><fmt:message key="${updateErrorOrder}"/></p>
-                <p class="text-danger"><fmt:message key="${updateSuccessOrder}"/></p>
+                <p class="text-danger"><fmt:message key="${updateErrorOrder}"/></p>
+                <p class="text-success"><fmt:message key="${updateSuccessOrder}"/></p>
 
                 <div align="bottom|left">
                     <button class="btn btn-success"><fmt:message key="order.confirmChanges"/></button>

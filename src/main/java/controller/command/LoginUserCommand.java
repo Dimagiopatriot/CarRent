@@ -34,6 +34,10 @@ public class LoginUserCommand implements Command {
         String email = request.getParameter(Parameters.EMAIL);
         String password = request.getParameter(Parameters.PASSWORD);
         List<String> errors = validateParams(email, password);
+        if (email == null || password == null){
+            errors.add(Messages.STUB_ERROR_MESSAGE);
+            return Pages.MAIN;
+        }
         if (!errors.isEmpty()){
             setAttributes(request, email, errors);
             return Pages.LOGIN;

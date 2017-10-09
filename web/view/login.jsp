@@ -43,13 +43,12 @@
             <button id="loginbutton" name="loginbutton" class="btn btn-success"><fmt:message
                     key="sign.in"/></button>
         </div>
+        <c:forEach items="${errors}" var="item">
+            <p class="text-danger"><fmt:message key="${item}"/></p>
+            <br>
+        </c:forEach>
     </fieldset>
 </form>
-
-<c:forEach items="${errors}" var="item">
-    <p class="text-danger"><fmt:message key="${item}"/></p>
-    <br>
-</c:forEach>
 
 <%@include file="footer.jsp" %>
 </body>

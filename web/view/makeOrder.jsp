@@ -21,7 +21,7 @@
             <label class="col-md-4 control-label" for="carSelect"><fmt:message key="order.car"/></label>
             <div class="col-md-4">
                 <select id="carSelect" name="carSelect" class="form-control" required="required">
-                    <option value="LADA">Lada</option>
+                    <option value="LADA" selected>Lada</option>
                     <option value="BMW">BMW</option>
                     <option value="MERCEDES">Mercedes</option>
                     <option value="HYNDAI">Hyundai</option>
@@ -63,13 +63,13 @@
         <div align="bottom|left">
             <a href="/user/clientOrders"><fmt:message key="transition.to.orders"/></a>
         </div>
+        <c:forEach items="${errors}" var="item">
+            <p class="text-danger"><fmt:message key="${item}"/></p>
+            <br>
+        </c:forEach>
+        <p class="text-success"><fmt:message key="${success}"/></p>
     </fieldset>
 </form>
-<c:forEach items="${errors}" var="item">
-    <p class="text-danger"><fmt:message key="${item}"/></p>
-    <br>
-</c:forEach>
-<p class="text-success"><fmt:message key="${success}"/></p>
 <%@include file="footer.jsp" %>
 
 <script>
