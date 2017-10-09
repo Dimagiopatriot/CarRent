@@ -1,4 +1,4 @@
-<%--
+<%@ page import="util.constant.Parameters" %><%--
   Created by IntelliJ IDEA.
   User: troll
   Date: 27.09.2017
@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="my" uri="formatPrice.tld" %>
 <html>
 <head>
     <%@include file="head.jsp" %>
@@ -38,6 +39,8 @@
         <div class="form-group">
             <h3 class="col-md-4 control-label"><fmt:message key="order.price"/>
                 <small><font color="black" id="orderPriceResult"></font></small>
+                <small><font color="black"><my:formatPrice
+                        language="${pageContext.session.getAttribute('language')}"/></font></small>
             </h3>
             <input type="hidden" name="orderPriceResultInput" id="orderPriceResultInput">
             <button id="getPriceButton" name="getPriceButton" class="btn btn-success"
@@ -95,10 +98,10 @@
                 result = 0;
         }
         if (!isNaN(result)) {
-            document.getElementById("orderPriceResult").innerHTML = result + " UAH";
+            document.getElementById("orderPriceResult").innerHTML = result;
             document.getElementById("orderPriceResultInput").value = result;
         } else {
-            document.getElementById("orderPriceResult").innerHTML = 0 + " UAH";
+            document.getElementById("orderPriceResult").innerHTML = 0;
             document.getElementById("orderPriceResultInput").value = result;
         }
     }
