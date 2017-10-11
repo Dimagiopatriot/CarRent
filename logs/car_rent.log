@@ -1,0 +1,1 @@
+11-10-2017 16:37:57 INFO  DamageDaoImpl:109 - class model.dao.impl.DamageDaoImplinsert()Duplicate entry '5' for key 'order_id_UNIQUE'
