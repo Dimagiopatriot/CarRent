@@ -50,6 +50,7 @@
                 <div class="col-md-4">
                     <input id="usercount" name="usercount" min="0" value="${user.count}" type="number"
                            placeholder="in UAH"
+                           step="0.1"
                            class="form-control input-md">
 
                 </div>
@@ -64,12 +65,14 @@
         <c:if test="${user != null && user.userAuth.role.toString() == 'admin'}">
             <a href="/user/adminOrders"><fmt:message key="transition.to.orders"/> </a>
         </c:if>
+        <c:forEach items="${errors}" var="item">
+            <p class="text-danger"><fmt:message key="${item}"/></p>
+            <br>
+        </c:forEach>
+        <c:if test="${success != null}">
+            <p class="text-success"><fmt:message key="${success}"/></p>
+        </c:if>
     </fieldset>
-    <c:forEach items="${errors}" var="item">
-        <p class="text-danger"><fmt:message key="${item}"/></p>
-        <br>
-    </c:forEach>
-    <p class="text-success"><fmt:message key="${success}"/></p>
 </form>
 
 <%@include file="footer.jsp" %>

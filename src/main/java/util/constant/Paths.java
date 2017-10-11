@@ -15,6 +15,7 @@ public interface Paths {
     String UPDATE_ORDER = "/user/updateOrder";
     String ADMIN_ORDERS = "/user/adminOrders";
     String SORT_ORDERS = "/user/adminOrders/sort";
+    String ADMIN_PAGINATION = "/user/adminOrders/pagination";
 
     String REGISTRATION = "/registration";
     String SIGN_UP = "/registration/signup";

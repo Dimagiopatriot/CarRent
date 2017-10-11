@@ -52,7 +52,7 @@ public class OrderServiceTest {
 
     private void stubSelectOrderByStatus(List<Order> orders){
         stubDaoFactory();
-        when(orderDao.selectOrdersByStatus(Order.Status.ACCEPTED)).thenReturn(orders);
+        //when(orderDao.selectOrdersByStatus(Order.Status.ACCEPTED)).thenReturn(orders);
     }
 
     private void stubSelect(Order order){
@@ -66,11 +66,11 @@ public class OrderServiceTest {
         initialization();
         stubSelectOrderByStatus(orders);
 
-        List<Order> actualOrders = orderService.selectOrderByStatus(Order.Status.ACCEPTED);
+        List<Order> actualOrders = orderService.selectOrderByStatus(Order.Status.ACCEPTED, 0, 5);
         assertEquals(orders, actualOrders);
 
         verify(daoFactory).getOrderDao();
-        verify(orderDao).selectOrdersByStatus(Order.Status.ACCEPTED);
+        verify(orderDao).selectOrdersByStatus(Order.Status.ACCEPTED,0, 5);
     }
 
     @Test

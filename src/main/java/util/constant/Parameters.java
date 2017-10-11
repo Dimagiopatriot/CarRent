@@ -31,4 +31,8 @@ public interface Parameters {
     String SUCCESS = "success";
     String ERROR_ORDER_UPDATE = "updateErrorOrder";
     String SUCCESS_ORDER_UPDATE = "updateSuccessOrder";
+
+    String PAGES_FOR_ADMIN = "pages";
+    String CURRENT_PAGE = "currentPage";
+    String PAGE_TRANSITION = "pageToGo";
 }

@@ -23,7 +23,7 @@
             <div class="col-md-4">
                 <input id="damageDescription" name="damageDescription"
                        placeholder="<fmt:message key="damage.description"/>"
-                       class="form-control input-md">
+                       class="form-control input-md" required="required">
 
             </div>
         </div>
@@ -33,15 +33,19 @@
             <div class="col-md-4">
                 <input id="damageRepairBill" name="damageRepairBill" type="number" min="0"
                        placeholder="<fmt:message key="damage.repairBill"/>"
-                       class="form-control input-md">
+                       class="form-control input-md" required="required">
 
             </div>
         </div>
         <div align="middle">
             <button class="btn btn-success"><fmt:message key="damage.addDamage"/></button>
         </div>
-        <p class="text-success"><fmt:message key="${success}"/></p>
-        <p class="text-danger"><fmt:message key="${errors}"/></p>
+        <c:if test="${success != null}">
+            <p class="text-success"><fmt:message key="${success}"/></p>
+        </c:if>
+        <c:if test="${errors != null}">
+            <p class="text-danger"><fmt:message key="${errors}"/></p>
+        </c:if>
         <div align="bottom|left">
             <a href="/user/adminOrders"><fmt:message key="transition.to.orders"/> </a>
         </div>

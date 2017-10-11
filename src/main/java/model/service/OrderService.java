@@ -29,8 +29,12 @@ public class OrderService {
         return Holder.INSTANCE;
     }
 
-    public List<Order> selectOrderByStatus(Order.Status status){
-        return daoFactory.getOrderDao().selectOrdersByStatus(status);
+    public List<Order> selectOrderByStatus(Order.Status status, int offset, int limit){
+        return daoFactory.getOrderDao().selectOrdersByStatus(status, offset, limit);
+    }
+
+    public int selectOrdersByStatusCount(Order.Status status){
+        return daoFactory.getOrderDao().selectOrdersByStatusCount(status);
     }
 
     public List<Order> selectOrderByUserId(int userId){

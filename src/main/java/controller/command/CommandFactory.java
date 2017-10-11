@@ -27,6 +27,7 @@ public class CommandFactory {
         commandMap.put(Paths.CREATE_DAMAGE, AddDamageToOrderCommand.getInstance());
         commandMap.put(Paths.UPDATE_ORDER, UpdateOrderCommand.getInstance());
         commandMap.put(Paths.UPDATE_PERSONAL_INFO, UpdateClientInformationCommand.getInstance());
+        commandMap.put(Paths.ADMIN_PAGINATION, PaginationCommand.getInstance());
     }
 
     private static class Holder{

@@ -67,7 +67,9 @@
             <p class="text-danger"><fmt:message key="${item}"/></p>
             <br>
         </c:forEach>
-        <p class="text-success"><fmt:message key="${success}"/></p>
+        <c:if test="${success != null}">
+            <p class="text-success"><fmt:message key="${success}"/></p>
+        </c:if>
     </fieldset>
 </form>
 <%@include file="footer.jsp" %>

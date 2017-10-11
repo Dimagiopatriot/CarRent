@@ -7,6 +7,7 @@ import util.constant.Paths;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class ClientFilter extends CommonVisitorFilter {
         notAllowedForClient.add(Paths.ADMIN_ORDERS);
         notAllowedForClient.add(Paths.CREATE_DAMAGE);
         notAllowedForClient.add(Paths.SORT_ORDERS);
+        notAllowedForClient.add(Paths.ADMIN_PAGINATION);
     }
 
     @Override

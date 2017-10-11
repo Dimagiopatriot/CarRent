@@ -40,8 +40,13 @@ public class OrderDaoImpl implements OrderDao{
     private final static int COLUMN_ID_INDEX = 7;
 
 
-    private final static String SELECT_QUERY_BY_STATUS = "SELECT * FROM car_rent.order " +
-            "LEFT JOIN damage ON " + "car_rent.order.id = damage.order_id where order_status =?;";
+    private final static String SELECT_QUERY_BY_STATUS = "select * from " +
+            "(Select * from" +
+            "   (SELECT * FROM car_rent.order " +
+            "   where order_status =?)t1 limit ?, ?)t2 " +
+            "LEFT JOIN damage ON t2.id = damage.order_id;";
+    private final static String SELECT_ORDERS_BY_STATUS_COUNT = "select count(*) from car_rent.order where " +
+            "order_status =?;";
     private final static String SELECT_QUERY_BY_ID = "SELECT * FROM car_rent.order WHERE id=?;";
     private final static String SELECT_QUERY_BY_USER_ID = "SELECT * FROM car_rent.order " +
             "LEFT JOIN damage ON " + "car_rent.order.id = damage.order_id where order_user_id =?;";
@@ -65,12 +70,14 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     @Override
-    public List<Order> selectOrdersByStatus(Order.Status status) {
+    public List<Order> selectOrdersByStatus(Order.Status status, int offset, int limit) {
         List<Order> orders = new ArrayList<>();
         try(JdbcConnection connection = connectionManager.getConnection();
             PreparedStatement statement =
                     connection.prepareStatement(SELECT_QUERY_BY_STATUS)) {
             statement.setString(1, status.toString());
+            statement.setInt(2, offset);
+            statement.setInt(3, limit);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.isBeforeFirst()){
@@ -112,6 +119,25 @@ public class OrderDaoImpl implements OrderDao{
             throw new DaoException();
         }
         return orders;
+    }
+
+    @Override
+    public int selectOrdersByStatusCount(Order.Status status) {
+        int ordersCount = 0;
+        try(JdbcConnection connection = connectionManager.getConnection();
+        PreparedStatement statement =
+                connection.prepareStatement(SELECT_ORDERS_BY_STATUS_COUNT)) {
+            statement.setString(1, status.toString());
+            ResultSet resultSet = statement.executeQuery();
+
+            resultSet.next();
+            ordersCount = resultSet.getInt("count(*)");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            LOGGER.info(OrderDaoImpl.class.toString() + e.getMessage());
+            throw new DaoException();
+        }
+        return ordersCount;
     }
 
     @Override

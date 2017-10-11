@@ -1,4 +1,4 @@
-<%--
+<%@ page import="util.constant.Parameters" %><%--
   Created by IntelliJ IDEA.
   User: troll
   Date: 27.09.2017
@@ -39,7 +39,24 @@
                 <button id="sortbutton" name="sortbutton" class="btn btn-success">
                     <fmt:message key="order.sort"/></button>
             </div>
+            <div class="col-md-4">
+                <c:forEach items="${pages}" var="page">
+                    ${page}
+                </c:forEach>
+            </div>
+            <div class="col-md-4">
+                <c:if test="${currentPage != 0}">
+                    <fmt:message key="pagination.yourPage"/> ${currentPage}
+                </c:if>
+            </div>
         </form>
+        <div class="col-md-4">
+            <form method="post" action="/user/adminOrders/pagination">
+                <input type="hidden" value="<%=request.getAttribute(Parameters.SORT)%>" name="status">
+                <fmt:message key="pagination.enterPage"/> <input type="number" name="pageToGo" min="0" step="1">
+                <button class="btn btn-success"><fmt:message key="pagination.goToPage"/> </button>
+            </form>
+        </div>
         <c:forEach items="${orders}" var="item" varStatus="itemRaw">
             <form method="post" action="/user/updateOrder">
                 <hr style="border-top: 1px solid #000000 !important;">
@@ -85,8 +102,12 @@
 
                     </div>
                 </div>
-                <p class="text-danger"><fmt:message key="${updateErrorOrder}"/></p>
-                <p class="text-success"><fmt:message key="${updateSuccessOrder}"/></p>
+                <c:if test="${updateErrorOrder != null}">
+                    <p class="text-danger"><fmt:message key="${updateErrorOrder}"/></p>
+                </c:if>
+                <c:if test="${updateSuccessOrder != null}">
+                    <p class="text-success"><fmt:message key="${updateSuccessOrder}"/></p>
+                </c:if>
 
                 <div align="bottom|left">
                     <button class="btn btn-success"><fmt:message key="order.confirmChanges"/></button>
