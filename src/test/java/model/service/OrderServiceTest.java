@@ -52,7 +52,7 @@ public class OrderServiceTest {
 
     private void stubSelectOrderByStatus(List<Order> orders){
         stubDaoFactory();
-        //when(orderDao.selectOrdersByStatus(Order.Status.ACCEPTED)).thenReturn(orders);
+        when(orderDao.selectOrdersByStatus(Order.Status.ACCEPTED, 0, 5)).thenReturn(orders);
     }
 
     private void stubSelect(Order order){
